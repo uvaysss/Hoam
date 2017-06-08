@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Hoam</string>
+    <string name="screen_filter">Filter</string>
+    <string name="screen_ad"> </string>
+    <string name="action_search">Search</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_save">Save</string>
+    <string name="search_hint">Search</string>
+    <string name="action_reset">Reset</string>
+    <string name="description">Description</string>
+    <string name="internet_error">Не удалось подключится к серверу. Проверьте ваше подключение к сети.</string>
+    <string name="no_network_access">No internet</string>
+    <string name="about_app">About app</string>
+
+    <plurals name="views">
+        <item quantity="zero">%1$d views</item>
+        <item quantity="one">%1$d view</item>
+        <item quantity="few">%1$d views</item>
+        <item quantity="many">%1$d views</item>
+        <item quantity="other">%1$d views</item>
+    </plurals>
+
+    <plurals name="ads">
+        <item quantity="zero">Found %1$d ads</item>
+        <item quantity="one">Found %1$d ad</item>
+        <item quantity="few">Found %1$d ads</item>
+        <item quantity="many">Found %1$d ads</item>
+        <item quantity="other">Found %1$d ads</item>
+    </plurals>
+</resources>

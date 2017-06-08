@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hoam</string>
+    <string name="screen_filter">Фильтр</string>
+    <string name="screen_ad"> </string>
+    <string name="action_search">Поиск</string>
+    <string name="action_filter">Фильтр</string>
+    <string name="action_save">Сохранить</string>
+    <string name="search_hint">Поиск</string>
+    <string name="action_reset">Сбросить</string>
+    <string name="description">Описание</string>
+    <string name="internet_error">Не удалось подключится к серверу. Проверьте ваше подключение к сети.</string>
+    <string name="no_network_access">Нет подключения к сети</string>
+    <string name="about_app">О приложении</string>
+
+    <plurals name="views">
+        <item quantity="zero">%1$d просмотров</item>
+        <item quantity="one">%1$d просмотр</item>
+        <item quantity="few">%1$d просмотра</item>
+        <item quantity="many">%1$d просмотров</item>
+        <item quantity="other">%1$d просмотров</item>
+    </plurals>
+
+    <plurals name="ads">
+        <item quantity="zero">Найдено %1$d объявлений</item>
+        <item quantity="one">Найдено %1$d объявление</item>
+        <item quantity="few">Найдено %1$d объявления</item>
+        <item quantity="many">Найдено %1$d объявлений</item>
+        <item quantity="other">Найдено %1$d объявлений</item>
+    </plurals>
+</resources>
