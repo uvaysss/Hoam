@@ -27,4 +27,12 @@
         <item quantity="many">Found %1$d ads</item>
         <item quantity="other">Found %1$d ads</item>
     </plurals>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="favorites">Избранное</string>
+    <string name="ads">Объявления</string>
 </resources>
