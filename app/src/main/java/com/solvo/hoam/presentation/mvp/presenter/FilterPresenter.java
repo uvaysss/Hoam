@@ -35,7 +35,7 @@ public class FilterPresenter extends MvpPresenter<FilterView> {
         onParentCategoryItemClicked(parentCategoryPosition);
 
         String priceFrom = "";
-        int price = filterLab.getPriceFrom();
+        long price = filterLab.getPriceFrom();
         if (price != 0) {
             priceFrom = String.valueOf(price);
         }

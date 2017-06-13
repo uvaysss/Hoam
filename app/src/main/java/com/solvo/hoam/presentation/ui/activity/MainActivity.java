@@ -28,6 +28,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initToolbar(false);
+        setTitle(R.string.ads);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, getToolbar(),
@@ -45,10 +46,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void initFragments() {
         fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, HomeFragment.newInstance(), HomeFragment.TAG)
-                .addToBackStack(HomeFragment.TAG)
                 .add(R.id.fragment_container, AboutAppFragment.newInstance(), AboutAppFragment.TAG)
                 .addToBackStack(AboutAppFragment.TAG)
+                .add(R.id.fragment_container, HomeFragment.newInstance(), HomeFragment.TAG)
+                .addToBackStack(HomeFragment.TAG)
                 .commit();
 
         fragmentManager.executePendingTransactions();

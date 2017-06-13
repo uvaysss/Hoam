@@ -77,4 +77,9 @@ public class AdPresenter extends MvpPresenter<AdView> {
         compositeDisposable.clear();
         getViewState().showLoading(false);
     }
+
+    public void onTryAgainClicked() {
+        getViewState().showLoading(true);
+        fetchAd();
+    }
 }

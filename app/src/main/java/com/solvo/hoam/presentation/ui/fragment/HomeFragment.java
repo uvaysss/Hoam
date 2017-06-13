@@ -3,6 +3,8 @@ package com.solvo.hoam.presentation.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -34,6 +35,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
     public static final String TAG = HomeFragment.class.getSimpleName();
     private static final int FILTER_REQUEST_CODE = 0;
 
+    private CoordinatorLayout coordinatorLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private EndlessScrollListener scrollListener;
     private LinearLayoutManager layoutManager;
@@ -67,6 +69,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinator_layout);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -86,6 +89,14 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
         recyclerView.addOnScrollListener(scrollListener);
 
         presenter.init();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            getActivity().setTitle(R.string.ads);
+        }
     }
 
     @Override
@@ -136,7 +147,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
         adapter.setAdList(adList);
         adapter.notifyDataSetChanged();
 
-        Toast.makeText(getContext(), total, Toast.LENGTH_SHORT).show();
+        Snackbar.make(coordinatorLayout, total, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -147,7 +158,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
 
     @Override
     public void showError() {
-        Toast.makeText(getContext(), getString(R.string.internet_error), Toast.LENGTH_LONG).show();
+        Snackbar.make(coordinatorLayout, R.string.internet_error, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

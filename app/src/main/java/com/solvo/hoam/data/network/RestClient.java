@@ -5,10 +5,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
-    private RestService mRestService;
+    private RestService restService;
 
     public RestClient() {
-        mRestService = new Retrofit.Builder()
+        restService = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(RestService.HOAM_API)
@@ -17,6 +17,6 @@ public class RestClient {
     }
 
     public RestService getRestService() {
-        return mRestService;
+        return restService;
     }
 }

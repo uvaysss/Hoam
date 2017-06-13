@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -14,12 +15,13 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.solvo.hoam.R;
 import com.solvo.hoam.HoamApplication;
-import com.solvo.hoam.presentation.ui.adapter.AdPagerAdapter;
-import com.solvo.hoam.presentation.ui.helper.AdHelper;
+import com.solvo.hoam.R;
 import com.solvo.hoam.presentation.mvp.presenter.AdPresenter;
 import com.solvo.hoam.presentation.mvp.view.AdView;
+import com.solvo.hoam.presentation.ui.adapter.AdPagerAdapter;
+import com.solvo.hoam.presentation.ui.fragment.ConnectionFragment;
+import com.solvo.hoam.presentation.ui.helper.AdHelper;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -28,7 +30,7 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
     public static final String TAG = AdActivity.class.getSimpleName();
     private static final String EXTRA_AD_ID = "ad_id";
 
-    private View internetErrorView;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
     private CoordinatorLayout coordinatorLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView titleTextView;
@@ -46,7 +48,7 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
     private AdPagerAdapter pagerAdapter;
 
     @InjectPresenter
-    AdPresenter mPresenter;
+    AdPresenter presenter;
 
     @ProvidePresenter
     AdPresenter providePresenter() {
@@ -64,7 +66,6 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
         setContentView(R.layout.activity_ad);
         initToolbar(true);
 
-        internetErrorView = findViewById(R.id.internet_error_view);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -82,7 +83,22 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
         indicator = (CircleIndicator) findViewById(R.id.indicator);
         imageViewPager = (ViewPager) findViewById(R.id.image_view_pager);
 
-        mPresenter.init(getIntent().getStringExtra(EXTRA_AD_ID));
+        presenter.init(getIntent().getStringExtra(EXTRA_AD_ID));
+
+        initConnectionFragment();
+    }
+
+    private void initConnectionFragment() {
+        ConnectionFragment connectionFragment = ConnectionFragment.newInstance();
+        connectionFragment.setOnClickListener(() -> presenter.onTryAgainClicked());
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, connectionFragment, ConnectionFragment.TAG)
+                .commit();
+        fragmentManager.executePendingTransactions();
+        fragmentManager.beginTransaction()
+                .hide(fragmentManager.findFragmentByTag(ConnectionFragment.TAG))
+                .commit();
     }
 
     @Override
@@ -126,18 +142,23 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
 
     @Override
     public void showError() {
-        internetErrorView.setVisibility(View.VISIBLE);
+        fragmentManager.beginTransaction()
+                .show(fragmentManager.findFragmentByTag(ConnectionFragment.TAG))
+                .commit();
     }
 
     @Override
     public void showContent() {
+        fragmentManager.beginTransaction()
+                .hide(fragmentManager.findFragmentByTag(ConnectionFragment.TAG))
+                .commit();
+
         coordinatorLayout.setVisibility(View.VISIBLE);
-        internetErrorView.setVisibility(View.GONE);
         swipeRefreshLayout.setEnabled(false);
     }
 
     @Override
     public void onRefresh() {
-        mPresenter.fetchAd();
+        presenter.fetchAd();
     }
 }

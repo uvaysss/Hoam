@@ -23,7 +23,7 @@ public class AboutAppFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_about, container, false);
+        return inflater.inflate(R.layout.fragment_about, container, false);
     }
 
     @Override
@@ -38,5 +38,13 @@ public class AboutAppFragment extends Fragment {
         urlTextView.setOnClickListener(v -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(RestService.HOAM_URL)));
         });
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            getActivity().setTitle(R.string.about_app);
+        }
     }
 }

@@ -22,11 +22,6 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
         dataManager = new DataManager();
     }
 
-    public void init() {
-        getViewState().showLoading(true);
-        fetchCategories();
-    }
-
     public void fetchCategories() {
         compositeDisposable.add(dataManager.getCategories()
                 .subscribe(response -> {
@@ -48,6 +43,11 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
                     getViewState().showLoading(false);
                 })
         );
+    }
+
+    public void onTryAgainClicked() {
+        getViewState().showLoading(true);
+        fetchCategories();
     }
 
     @Override

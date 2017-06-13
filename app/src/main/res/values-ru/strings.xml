@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Hoam</string>
     <string name="screen_filter">Фильтр</string>
-    <string name="screen_ad"> </string>
+    <string name="screen_ad">Об объявлении</string>
     <string name="action_search">Поиск</string>
     <string name="action_filter">Фильтр</string>
     <string name="action_save">Сохранить</string>
@@ -28,4 +28,8 @@
         <item quantity="many">Найдено %1$d объявлений</item>
         <item quantity="other">Найдено %1$d объявлений</item>
     </plurals>
+
+    <string name="no_connection">Отсутствует подключение</string>
+    <string name="check_internet_connection">Проверьте ваше интернет-соединение и попробуйте снова</string>
+    <string name="try_again">Попробовать еще раз</string>
 </resources>

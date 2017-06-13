@@ -75,8 +75,10 @@
                         android:id="@+id/et_price_from"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:hint="Цена, от (рубли)"
-                        android:inputType="number"/>
+                        android:inputType="number"
+                        android:maxLength="12"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -88,8 +90,10 @@
                         android:id="@+id/et_price_to"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:hint="Цена, до (рубли)"
-                        android:inputType="number"/>
+                        android:inputType="number"
+                        android:maxLength="12"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
         </LinearLayout>

@@ -27,7 +27,9 @@ public interface RestService {
             @Query("page") int page,
             @Query("search") String query,
             @Query("city_id") String locationId,
-            @Query("category_id") String categoryId
+            @Query("category_id") String categoryId,
+            @Query("price_from") String priceFrom,
+            @Query("price_to") String priceTo
     );
 
     @GET("ad/{id}")

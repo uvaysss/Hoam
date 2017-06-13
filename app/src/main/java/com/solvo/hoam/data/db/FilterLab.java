@@ -1,19 +1,18 @@
 package com.solvo.hoam.data.db;
 
 public class FilterLab {
-    private static FilterLab sFilterLab = new FilterLab();
-    private int mLocationSpinnerPosition = 0;
-    private int mParentCategorySpinnerPosition = 0;
-    private int mSubCategorySpinnerPosition = 0;
-    private int mPriceFrom = 0;
-    private int mPriceTo = 0;
+    private static FilterLab filterLab = new FilterLab();
+    private int locationSpinnerPosition = 0;
+    private int parentCategorySpinnerPosition = 0;
+    private int subCategorySpinnerPosition = 0;
+    private long priceFrom = 0;
+    private long priceTo = 0;
 
     public static FilterLab getInstance() {
-        return sFilterLab;
+        return filterLab;
     }
 
     private FilterLab() {
-
     }
 
     public void setFilters(int locationSpinnerPosition,
@@ -22,47 +21,47 @@ public class FilterLab {
                            String priceFrom,
                            String priceTo) {
 
-        mLocationSpinnerPosition = locationSpinnerPosition;
-        mParentCategorySpinnerPosition = parentCategorySpinnerPosition;
-        mSubCategorySpinnerPosition = subCategorySpinnerPosition;
+        this.locationSpinnerPosition = locationSpinnerPosition;
+        this.parentCategorySpinnerPosition = parentCategorySpinnerPosition;
+        this.subCategorySpinnerPosition = subCategorySpinnerPosition;
 
         if (!priceFrom.equals("")) {
-            mPriceFrom = Integer.valueOf(priceFrom);
+            this.priceFrom = Long.valueOf(priceFrom);
         }
         if (!priceTo.equals("")) {
-            mPriceTo = Integer.valueOf(priceTo);
+            this.priceTo = Long.valueOf(priceTo);
         }
     }
 
     public void resetFilters() {
-        mLocationSpinnerPosition = 0;
-        mParentCategorySpinnerPosition = 0;
-        mSubCategorySpinnerPosition = 0;
-        mPriceFrom = 0;
-        mPriceTo = 0;
+        locationSpinnerPosition = 0;
+        parentCategorySpinnerPosition = 0;
+        subCategorySpinnerPosition = 0;
+        priceFrom = 0;
+        priceTo = 0;
     }
 
     public int getLocationSpinnerPosition() {
-        return mLocationSpinnerPosition;
+        return locationSpinnerPosition;
     }
 
     public int getParentCategorySpinnerPosition() {
-        return mParentCategorySpinnerPosition;
+        return parentCategorySpinnerPosition;
     }
 
     public int getSubCategorySpinnerPosition() {
-        return mSubCategorySpinnerPosition;
+        return subCategorySpinnerPosition;
     }
 
-    public int getPriceFrom() {
-        return mPriceFrom;
+    public long getPriceFrom() {
+        return priceFrom;
     }
 
-    public int getPriceTo() {
-        return mPriceTo;
+    public long getPriceTo() {
+        return priceTo;
     }
 
     public void setSubCategorySpinnerPosition(int subCategorySpinnerPosition) {
-        mSubCategorySpinnerPosition = subCategorySpinnerPosition;
+        this.subCategorySpinnerPosition = subCategorySpinnerPosition;
     }
 }

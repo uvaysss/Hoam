@@ -22,73 +22,83 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class DataManager {
-    private RestService mRestService;
-    private FilterLab mFilterLab;
-    private AdLab mAdLab;
-    private LocationLab mLocationLab;
-    private CategoryLab mCategoryLab;
+    private RestService restService;
+    private FilterLab filterLab;
+    private AdLab adLab;
+    private LocationLab locationLab;
+    private CategoryLab categoryLab;
 
     public DataManager() {
-        mRestService = new RestClient().getRestService();
-        mFilterLab = FilterLab.getInstance();
-        mAdLab = AdLab.getInstance();
-        mLocationLab = LocationLab.getInstance();
-        mCategoryLab = CategoryLab.getInstance();
+        restService = new RestClient().getRestService();
+        filterLab = FilterLab.getInstance();
+        adLab = AdLab.getInstance();
+        locationLab = LocationLab.getInstance();
+        categoryLab = CategoryLab.getInstance();
     }
 
     public Observable<AdResponse> getAds(int page, String query) {
-        return mRestService.getAds(page, query, getLocationId(), getCategoryId())
+        return restService.getAds(page, query, getLocationId(), getCategoryId(), getPriceFrom(), getPriceTo())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<Ad> getAd(String adId) {
-        return mRestService.getAd(adId)
+        return restService.getAd(adId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<LocationResponse>> getLocations() {
-        return mRestService.getLocations()
+        return restService.getLocations()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<CategoryResponse>> getCategories() {
-        return mRestService.getCategories()
+        return restService.getCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Nullable
     private String getCategoryId() {
-        int parentPosition = mFilterLab.getParentCategorySpinnerPosition();
+        int parentPosition = filterLab.getParentCategorySpinnerPosition();
         if (parentPosition == 0) {
             return null;
         }
 
-        int subPosition = mFilterLab.getSubCategorySpinnerPosition();
-        String parentCategoryId = mCategoryLab.getParentCategoryId(parentPosition);
+        int subPosition = filterLab.getSubCategorySpinnerPosition();
+        String parentCategoryId = categoryLab.getParentCategoryId(parentPosition);
         if (subPosition == 0 || subPosition == -1) {
             return parentCategoryId;
         }
 
-        return mCategoryLab.getSubCategoryId(subPosition, parentCategoryId);
+        return categoryLab.getSubCategoryId(subPosition, parentCategoryId);
     }
 
     @Nullable
     private String getLocationId() {
-        int position = mFilterLab.getLocationSpinnerPosition();
+        int position = filterLab.getLocationSpinnerPosition();
 
-        return position != 0 ? mLocationLab.getLocationId(position) : null;
+        return position != 0 ? locationLab.getLocationId(position) : null;
+    }
+
+    private String getPriceFrom() {
+        long from = filterLab.getPriceFrom();
+        return from != 0 ? String.valueOf(from) : null;
+    }
+
+    private String getPriceTo() {
+        long to = filterLab.getPriceTo();
+        return to != 0 ? String.valueOf(to) : null;
     }
 
     public void saveAdList(List<Ad> ads) {
-        mAdLab.setAdList(ads);
+        adLab.setAdList(ads);
     }
 
     public void updateAdList(List<Ad> ads) {
-        mAdLab.updateAdList(ads);
+        adLab.updateAdList(ads);
     }
 
     public void saveLocationList(List<LocationResponse> locations) {
@@ -98,7 +108,7 @@ public class DataManager {
         location.setRegionId("0");
         locations.add(0, location);
 
-        mLocationLab.setLocations(locations);
+        locationLab.setLocations(locations);
     }
 
     public void saveCategoryList(List<CategoryResponse> categories) {
@@ -139,6 +149,6 @@ public class DataManager {
             }
         }
 
-        mCategoryLab.setCategories(parentCategories, subCategories);
+        categoryLab.setCategories(parentCategories, subCategories);
     }
 }
