@@ -6,31 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdLab {
-    private static AdLab mAdLab = new AdLab();
-    private List<Ad> mAdList;
+    private static AdLab adLab = new AdLab();
+    private List<Ad> adList;
 
     public static AdLab getInstance() {
-        return mAdLab;
+        return adLab;
     }
 
     private AdLab() {
-        mAdList = new ArrayList<>();
+        adList = new ArrayList<>();
     }
 
     public List<Ad> getAdList() {
-        return mAdList;
+        return adList;
     }
 
     public void setAdList(List<Ad> adList) {
-        mAdList = adList;
+        this.adList = adList;
     }
 
     public void updateAdList(List<Ad> ads) {
-        mAdList.addAll(ads);
+        adList.addAll(ads);
     }
 
     public Ad getAd(String id) {
-        for (Ad ad : mAdList) {
+        for (Ad ad : adList) {
             if (ad.getId().equals(id)) {
                 return ad;
             }
