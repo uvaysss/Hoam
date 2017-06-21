@@ -3,6 +3,7 @@ package com.solvo.hoam.data.db.table;
 public class AdTable {
 
     public static final String TABLE_NAME = "ad";
+
     public static final String ID = "id";
     public static final String TITLE = "title";
     public static final String TEXT = "text";
@@ -20,13 +21,13 @@ public class AdTable {
 
     public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             ID + " INTEGER NOT NULL PRIMARY KEY, " +
-            TITLE + " TEXT NOT NULL UNIQUE, " +
-            TEXT + " TEXT NOT NULL, " +
+            TITLE + " TEXT, " +
+            TEXT + " TEXT, " +
             PRICE + " INTEGER NOT NULL, " +
             PHONE + " TEXT NOT NULL, " +
             VIEWS + " INTEGER NOT NULL, " +
-            AUTHOR_ID + " TEXT NOT NULL, " +
-            AUTHOR_NAME + " TEXT NOT NULL, " +
+            AUTHOR_ID + " TEXT, " +
+            AUTHOR_NAME + " TEXT, " +
             CATEGORY_ID + " TEXT NOT NULL, " +
             IS_PREMIUM + " INTEGER NOT NULL, " +
             CITY_ID + " TEXT NOT NULL, " +

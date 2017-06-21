@@ -47,6 +47,7 @@
                 android:ellipsize="end"
                 android:gravity="start"
                 android:hint="12.500р"
+                android:maxLines="1"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
@@ -56,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="start|fill_vertical"
-                android:hint="Назрань"/>
+                android:hint="Назрань"
+                android:maxLines="1"/>
 
             <TextView
                 android:id="@+id/tv_category"
@@ -64,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="start"
+                android:maxLines="1"
                 android:text="Предложение услуг"/>
 
             <TextView
@@ -72,7 +75,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="start"
-                android:hint="13.11.2016"/>
+                android:hint="13.11.2016"
+                android:maxLines="1"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

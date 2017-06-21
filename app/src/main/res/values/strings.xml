@@ -39,4 +39,5 @@
     <string name="no_connection">Отсутствует подключение</string>
     <string name="check_internet_connection">Проверьте ваше интернет-соединение и попробуйте снова</string>
     <string name="try_again">Попробовать еще раз</string>
+    <string name="click_again_to_exit">Нажмите еще раз для выхода</string>
 </resources>

@@ -13,9 +13,9 @@ public class CategoryTable {
 
     public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             ID + " INTEGER NOT NULL PRIMARY KEY, " +
-            NAME + " TEXT NOT NULL UNIQUE, " +
+            NAME + " TEXT NOT NULL, " +
             SLUG + " TEXT NOT NULL, " +
-            PARENT_ID + " TEXT NOT NULL, " +
+            PARENT_ID + " TEXT, " +
             PRIORITY + " INTEGER NOT NULL, " +
             CREATED_AT + " TEXT NOT NULL, " +
             UPDATED_AT + " TEXT NOT NULL);";

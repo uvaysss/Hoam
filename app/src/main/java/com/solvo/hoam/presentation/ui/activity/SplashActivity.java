@@ -34,7 +34,8 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
-        presenter.fetchCategories();
+//        presenter.fetchCategories();
+        presenter.fetchData();
 
         initConnectionFragment();
     }
@@ -65,8 +66,7 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
     }
 
     @Override
-    public void goToMainScreen() {
+    public void navigateToMainScreen() {
         startActivity(MainActivity.buildIntent(this));
-        finish();
     }
 }

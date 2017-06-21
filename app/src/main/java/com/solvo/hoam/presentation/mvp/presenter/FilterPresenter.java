@@ -1,47 +1,62 @@
 package com.solvo.hoam.presentation.mvp.presenter;
 
+import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.solvo.hoam.data.network.response.Category;
-import com.solvo.hoam.data.db.CategoryLab;
-import com.solvo.hoam.data.db.FilterLab;
-import com.solvo.hoam.data.db.LocationLab;
+import com.solvo.hoam.data.db.Filter;
+import com.solvo.hoam.data.db.model.CategoryModel;
+import com.solvo.hoam.data.db.model.LocationModel;
 import com.solvo.hoam.di.ApplicationComponent;
+import com.solvo.hoam.domain.interactor.FilterInteractor;
 import com.solvo.hoam.presentation.mvp.view.FilterView;
 
-import java.util.List;
+import javax.inject.Inject;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
 public class FilterPresenter extends MvpPresenter<FilterView> {
 
-    private FilterLab filterLab;
-    private CategoryLab categoryLab;
-    private List<Category> parentCategoryList;
+    private static final String TAG = FilterPresenter.class.getSimpleName();
+
+    private CompositeDisposable compositeDisposable;
+
+    @Inject
+    FilterInteractor interactor;
+
+    @Inject
+    Filter filter;
 
     public FilterPresenter(ApplicationComponent applicationComponent) {
         applicationComponent.inject(this);
 
-        filterLab = FilterLab.getInstance();
-        categoryLab = CategoryLab.getInstance();
-        parentCategoryList = CategoryLab.getInstance().getParentCategories();
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     public void init() {
-        getViewState().setUpViews(LocationLab.getInstance().getLocations(), parentCategoryList);
+        compositeDisposable.add(interactor.getLocations()
+                .subscribe(locations -> {
+                    getViewState().setLocations(locations, filter.getLocationPosition());
+                }, throwable -> {
+                    Log.e(TAG, throwable.toString());
+                }));
 
-        int parentCategoryPosition = filterLab.getParentCategorySpinnerPosition();
-        getViewState().setViewPositions(filterLab.getLocationSpinnerPosition(), parentCategoryPosition);
-
-        onParentCategoryItemClicked(parentCategoryPosition);
+        compositeDisposable.add(interactor.getCategories()
+                .subscribe(categories -> {
+                    getViewState().setCategories(categories, filter.getCategoryPosition());
+                }, throwable -> {
+                    Log.e(TAG, throwable.toString());
+                }));
 
         String priceFrom = "";
-        long price = filterLab.getPriceFrom();
+        long price = filter.getPriceFrom();
         if (price != 0) {
             priceFrom = String.valueOf(price);
         }
 
         String priceTo = "";
-        price = filterLab.getPriceTo();
+        price = filter.getPriceTo();
         if (price != 0) {
             priceTo = String.valueOf(price);
         }
@@ -49,24 +64,21 @@ public class FilterPresenter extends MvpPresenter<FilterView> {
         getViewState().setUpPrices(priceFrom, priceTo);
     }
 
-    public void onParentCategoryItemClicked(int position) {
-        if (position != 0) {
-            String parentId = parentCategoryList.get(position).getId();
-            getViewState().updateSubCategories(categoryLab.getSubCategories(parentId), filterLab.getSubCategorySpinnerPosition());
-            getViewState().showSubCategory(true);
-        } else {
-            getViewState().showSubCategory(false);
-            filterLab.setSubCategorySpinnerPosition(0);
-        }
-    }
-
-    public void onSaveClicked(int location, int parentCategory, int subCategory, String priceFrom, String priceTo) {
-        filterLab.setFilters(location, parentCategory, subCategory, priceFrom, priceTo);
+    public void saveFilterInfo(LocationModel location, CategoryModel category,
+                               int locationPosition, int categoryPosition,
+                               String priceFrom, String priceTo) {
+        filter.setFilters(
+                location != null ? location.getId() : null,
+                category != null ? category.getId() : null,
+                locationPosition,
+                categoryPosition,
+                priceFrom,
+                priceTo);
         getViewState().close();
     }
 
-    public void onResetClicked() {
-        filterLab.resetFilters();
+    public void resetFilterInfo() {
+        filter.resetFilters();
         getViewState().setViewPositions(0, 0);
         getViewState().setUpPrices("", "");
     }

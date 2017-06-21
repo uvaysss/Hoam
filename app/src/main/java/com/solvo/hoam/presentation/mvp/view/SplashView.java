@@ -9,5 +9,5 @@ public interface SplashView extends MvpView {
 
     void showError();
     void showLoading(boolean show);
-    void goToMainScreen();
+    void navigateToMainScreen();
 }

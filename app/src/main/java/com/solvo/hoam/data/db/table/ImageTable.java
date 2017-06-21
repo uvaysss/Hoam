@@ -3,6 +3,7 @@ package com.solvo.hoam.data.db.table;
 public class ImageTable {
 
     public static final String TABLE_NAME = "image";
+
     public static final String ID = "id";
     public static final String AD_ID = "ad_id";
     public static final String IS_MAIN = "is_main";

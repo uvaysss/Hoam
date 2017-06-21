@@ -1,10 +1,7 @@
 package com.solvo.hoam.presentation.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,33 +9,28 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.solvo.hoam.R;
+import com.solvo.hoam.data.network.response.Image;
 import com.solvo.hoam.presentation.ui.activity.ImageActivity;
 import com.solvo.hoam.presentation.ui.helper.AdHelper;
-import com.solvo.hoam.data.db.AdLab;
-import com.solvo.hoam.data.network.response.Image;
 
 import java.util.List;
 
 public class AdPagerAdapter extends PagerAdapter {
     private static final String TAG = AdPagerAdapter.class.getSimpleName();
-    private List<Image> mImageList;
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
-    private FragmentManager mFragmentManager;
-    private Fragment mFragment;
-    private String mAdId;
 
-    public AdPagerAdapter(Context context, String adId) {
-        mContext = context;
-        mAdId = adId;
-        mImageList = AdLab.getInstance().getAd(adId).getImages();
-        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mFragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+    private LayoutInflater layoutInflater;
+    private List<Image> imageList;
+    private Context context;
+
+    public AdPagerAdapter(Context context, List<Image> imageList) {
+        this.context = context;
+        this.imageList = imageList;
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return mImageList.size();
+        return imageList.size();
     }
 
     @Override
@@ -48,23 +40,18 @@ public class AdPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+        View itemView = layoutInflater.inflate(R.layout.pager_item, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.image_view);
         imageView.setOnClickListener(v -> {
-//            mFragment = ImageActivity.buildIntent(mImageList.get(position).getBig());
-//            mFragmentManager.beginTransaction()
-//                    .hide(mFragmentManager.findFragmentByTag(AdFragment.TAG))
-//                    .add(R.id.fragment_container, mFragment, ImageActivity.TAG)
-//                    .addToBackStack(ImageActivity.TAG)
-//                    .commit();
-            mContext.startActivity(ImageActivity.buildIntent(mContext, mImageList.get(position).getBig()));
+            context.startActivity(ImageActivity.buildIntent(context, imageList.get(position).getBig()));
         });
 
-        Glide.with(mContext)
-                .load(AdHelper.getImageUrl(mImageList.get(position).getBig()))
+        Glide.with(context)
+                .load(AdHelper.getImageUrl(imageList.get(position).getBig()))
+                .placeholder(R.drawable.ic_placeholder)
                 .centerCrop()
-                .crossFade()
+                .animate(R.anim.image_fade_in)
                 .into(imageView);
 
         container.addView(itemView);

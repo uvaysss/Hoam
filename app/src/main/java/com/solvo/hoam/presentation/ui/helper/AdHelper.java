@@ -59,7 +59,7 @@ public class AdHelper {
         return ++month < 10 ? "0" + month : String.valueOf(month);
     }
 
-    public static String getPrice(int price) {
+    public static String getPrice(long price) {
         if (price == 0) {
             return "Цена не указана";
         }

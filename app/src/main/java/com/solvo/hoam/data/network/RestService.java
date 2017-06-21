@@ -7,7 +7,7 @@ import com.solvo.hoam.data.network.response.LocationResponse;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -15,15 +15,16 @@ import retrofit2.http.Query;
 public interface RestService {
     String HOAM_API = "https://hoam.ru/api/";
     String HOAM_URL = "https://hoam.ru/";
+    String HOAM_NEW_AD = "https://hoam.ru/publish";
 
     @GET("category")
-    Observable<List<CategoryResponse>> getCategories();
+    Single<List<CategoryResponse>> getCategories();
 
     @GET("city")
-    Observable<List<LocationResponse>> getLocations();
+    Single<List<LocationResponse>> getLocations();
 
     @GET("ad")
-    Observable<AdResponse> getAds(
+    Single<AdResponse> getAds(
             @Query("page") int page,
             @Query("search") String query,
             @Query("city_id") String locationId,
@@ -33,5 +34,5 @@ public interface RestService {
     );
 
     @GET("ad/{id}")
-    Observable<Ad> getAd(@Path("id") String adId);
+    Single<Ad> getAd(@Path("id") String adId);
 }

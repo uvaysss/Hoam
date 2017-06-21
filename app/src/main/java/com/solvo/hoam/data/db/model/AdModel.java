@@ -11,18 +11,18 @@ public class AdModel {
     private String authorId;
     private String authorName;
     private String categoryId;
-    private int isPremium;
+    private boolean isPremium;
     private String cityId;
     private String createdAt;
     private String updatedAt;
-    private int isFree;
+    private boolean isFree;
 
     public AdModel() {
     }
 
     public AdModel(String id, String title, String text, int price, String phone, int views,
-                   String authorId, String authorName, String categoryId, int isPremium,
-                   String cityId, String createdAt, String updatedAt, int isFree) {
+                   String authorId, String authorName, String categoryId, boolean isPremium,
+                   String cityId, String createdAt, String updatedAt, boolean isFree) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -111,11 +111,11 @@ public class AdModel {
         this.categoryId = categoryId;
     }
 
-    public int getIsPremium() {
+    public boolean getIsPremium() {
         return isPremium;
     }
 
-    public void setIsPremium(int isPremium) {
+    public void setIsPremium(boolean isPremium) {
         this.isPremium = isPremium;
     }
 
@@ -143,11 +143,11 @@ public class AdModel {
         this.updatedAt = updatedAt;
     }
 
-    public int getIsFree() {
+    public boolean getIsFree() {
         return isFree;
     }
 
-    public void setIsFree(int isFree) {
+    public void setIsFree(boolean isFree) {
         this.isFree = isFree;
     }
 }

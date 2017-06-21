@@ -2,8 +2,10 @@ package com.solvo.hoam.presentation.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,21 +23,24 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.solvo.hoam.HoamApplication;
 import com.solvo.hoam.R;
-import com.solvo.hoam.data.network.response.Ad;
-import com.solvo.hoam.presentation.mvp.presenter.HomePresenter;
-import com.solvo.hoam.presentation.mvp.view.HomeView;
+import com.solvo.hoam.data.network.RestService;
+import com.solvo.hoam.domain.model.AdEntity;
+import com.solvo.hoam.presentation.mvp.presenter.AdListPresenter;
+import com.solvo.hoam.presentation.mvp.view.AdListView;
 import com.solvo.hoam.presentation.ui.activity.FilterActivity;
 import com.solvo.hoam.presentation.ui.adapter.AdListAdapter;
 import com.solvo.hoam.presentation.ui.view.EndlessScrollListener;
 
 import java.util.List;
 
-public class HomeFragment extends MvpAppCompatFragment implements HomeView, SwipeRefreshLayout.OnRefreshListener {
+public class AdListFragment extends MvpAppCompatFragment
+        implements AdListView, SwipeRefreshLayout.OnRefreshListener {
 
-    public static final String TAG = HomeFragment.class.getSimpleName();
+    public static final String TAG = AdListFragment.class.getSimpleName();
     private static final int FILTER_REQUEST_CODE = 0;
 
     private CoordinatorLayout coordinatorLayout;
+    private FloatingActionButton floatingActionButton;
     private SwipeRefreshLayout swipeRefreshLayout;
     private EndlessScrollListener scrollListener;
     private LinearLayoutManager layoutManager;
@@ -43,15 +48,15 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
     private AdListAdapter adapter;
 
     @InjectPresenter
-    HomePresenter presenter;
+    AdListPresenter presenter;
 
     @ProvidePresenter
-    HomePresenter providePresenter() {
-        return new HomePresenter(HoamApplication.getComponent());
+    AdListPresenter providePresenter() {
+        return new AdListPresenter(HoamApplication.getComponent());
     }
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
+    public static AdListFragment newInstance() {
+        return new AdListFragment();
     }
 
     @Override
@@ -62,14 +67,20 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_ad_list, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getActivity().setTitle(R.string.ads);
+
         coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinator_layout);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(RestService.HOAM_NEW_AD)));
+        });
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -142,16 +153,14 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
     }
 
     @Override
-    public void setAds(List<Ad> adList, String total) {
+    public void setAds(List<AdEntity> adList) {
         scrollListener.resetState();
         adapter.setAdList(adList);
         adapter.notifyDataSetChanged();
-
-        Snackbar.make(coordinatorLayout, total, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void updateAds(List<Ad> adList) {
+    public void updateAds(List<AdEntity> adList) {
         adapter.updateAdList(adList);
         adapter.notifyDataSetChanged();
     }
@@ -172,4 +181,5 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView, Swip
             presenter.onActivityResult();
         }
     }
+
 }

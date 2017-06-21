@@ -4,7 +4,7 @@ public class ImageModel {
 
     private String id;
     private String adId;
-    private int isMain;
+    private boolean isMain;
     private String big;
     private String small;
     private String createdAt;
@@ -13,7 +13,7 @@ public class ImageModel {
     public ImageModel() {
     }
 
-    public ImageModel(String id, String adId, int isMain, String big, String small, String createdAt,
+    public ImageModel(String id, String adId, boolean isMain, String big, String small, String createdAt,
                       String updatedAt) {
         this.id = id;
         this.adId = adId;
@@ -40,11 +40,11 @@ public class ImageModel {
         this.adId = adId;
     }
 
-    public int getIsMain() {
+    public boolean getIsMain() {
         return isMain;
     }
 
-    public void setIsMain(int isMain) {
+    public void setIsMain(boolean isMain) {
         this.isMain = isMain;
     }
 

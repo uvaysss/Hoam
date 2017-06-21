@@ -5,18 +5,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.solvo.hoam.HoamApplication;
 import com.solvo.hoam.R;
+import com.solvo.hoam.domain.model.AdEntity;
 import com.solvo.hoam.presentation.mvp.presenter.AdPresenter;
 import com.solvo.hoam.presentation.mvp.view.AdView;
 import com.solvo.hoam.presentation.ui.adapter.AdPagerAdapter;
@@ -25,14 +25,16 @@ import com.solvo.hoam.presentation.ui.helper.AdHelper;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayout.OnRefreshListener {
+public class AdActivity extends BaseActivity implements AdView {
 
     public static final String TAG = AdActivity.class.getSimpleName();
     private static final String EXTRA_AD_ID = "ad_id";
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
-    private CoordinatorLayout coordinatorLayout;
-    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private View contentLayout;
+    private View imageLayout;
+    private ProgressBar progressBar;
     private TextView titleTextView;
     private TextView priceTextView;
     private TextView usernameTextView;
@@ -66,10 +68,9 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
         setContentView(R.layout.activity_ad);
         initToolbar(true);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        contentLayout = findViewById(R.id.content_layout);
+        imageLayout = findViewById(R.id.image_layout);
         titleTextView = (TextView) findViewById(R.id.tv_title);
         priceTextView = (TextView) findViewById(R.id.tv_price);
         usernameTextView = (TextView) findViewById(R.id.tv_username);
@@ -102,32 +103,31 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
     }
 
     @Override
-    public void setUpViews(String title, String price, String username, String category, String location,
-                           String createdDate, String description, String views, String phone, String adId) {
-        titleTextView.setText(title);
-        priceTextView.setText(price);
-        usernameTextView.setText(username);
+    public void setUpViews(AdEntity ad) {
+        titleTextView.setText(ad.getTitle());
+        priceTextView.setText(AdHelper.getPrice(ad.getPrice()));
+        usernameTextView.setText(ad.getAuthorName());
         usernameTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_user, this), null, null, null);
-        phoneTextView.setText(phone);
-        phoneTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_phone_number, this), null, null, null);
-        categoryTextView.setText(category);
+        categoryTextView.setText(ad.getCategory());
         categoryTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_category, this), null, null, null);
-        locationTextView.setText(location);
+        locationTextView.setText(ad.getLocation());
         locationTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_location, this), null, null, null);
-        createdDateTextView.setText(createdDate);
-        descriptionTextView.setText(description);
-        viewsTextView.setText(views);
+        phoneTextView.setText(ad.getPhone());
+        phoneTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_phone_number, this), null, null, null);
+        createdDateTextView.setText(AdHelper.getAdCreatedDate(ad.getCreatedAt(), false));
+        descriptionTextView.setText(ad.getText());
+        viewsTextView.setText(AdHelper.getViews(ad.getViews(), getResources()));
         floatingActionButton.setOnClickListener(view -> {
-            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone)));
+            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ad.getPhone())));
         });
-        pagerAdapter = new AdPagerAdapter(this, adId);
+        pagerAdapter = new AdPagerAdapter(this, ad.getImageList());
         imageViewPager.setAdapter(pagerAdapter);
         indicator.setViewPager(imageViewPager);
     }
 
     @Override
-    public void hideViewPager() {
-        imageViewPager.setVisibility(View.GONE);
+    public void hideImageLayout() {
+        imageLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -137,7 +137,11 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
 
     @Override
     public void showLoading(boolean show) {
-        swipeRefreshLayout.setRefreshing(show);
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -153,12 +157,8 @@ public class AdActivity extends BaseActivity implements AdView, SwipeRefreshLayo
                 .hide(fragmentManager.findFragmentByTag(ConnectionFragment.TAG))
                 .commit();
 
-        coordinatorLayout.setVisibility(View.VISIBLE);
-        swipeRefreshLayout.setEnabled(false);
+        contentLayout.setVisibility(View.VISIBLE);
+        floatingActionButton.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onRefresh() {
-        presenter.fetchAd();
-    }
 }
