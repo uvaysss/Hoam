@@ -5,7 +5,7 @@ public class AdModel {
     private String id;
     private String title;
     private String text;
-    private int price;
+    private long price;
     private String phone;
     private int views;
     private String authorId;
@@ -16,13 +16,14 @@ public class AdModel {
     private String createdAt;
     private String updatedAt;
     private boolean isFree;
+    private boolean isFavorite;
 
     public AdModel() {
     }
 
-    public AdModel(String id, String title, String text, int price, String phone, int views,
+    public AdModel(String id, String title, String text, long price, String phone, int views,
                    String authorId, String authorName, String categoryId, boolean isPremium,
-                   String cityId, String createdAt, String updatedAt, boolean isFree) {
+                   String cityId, String createdAt, String updatedAt, boolean isFree, boolean isFavorite) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -37,6 +38,7 @@ public class AdModel {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.isFree = isFree;
+        this.isFavorite = isFavorite;
     }
 
     public String getId() {
@@ -63,11 +65,11 @@ public class AdModel {
         this.text = text;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
@@ -111,12 +113,12 @@ public class AdModel {
         this.categoryId = categoryId;
     }
 
-    public boolean getIsPremium() {
+    public boolean isPremium() {
         return isPremium;
     }
 
-    public void setIsPremium(boolean isPremium) {
-        this.isPremium = isPremium;
+    public void setPremium(boolean premium) {
+        isPremium = premium;
     }
 
     public String getCityId() {
@@ -143,11 +145,19 @@ public class AdModel {
         this.updatedAt = updatedAt;
     }
 
-    public boolean getIsFree() {
+    public boolean isFree() {
         return isFree;
     }
 
-    public void setIsFree(boolean isFree) {
-        this.isFree = isFree;
+    public void setFree(boolean free) {
+        isFree = free;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

@@ -32,6 +32,16 @@ public class Image {
     @Expose
     private String updatedAt;
 
+    public Image(String id, String adId, int isMain, String big, String small, String createdAt, String updatedAt) {
+        this.id = id;
+        this.adId = adId;
+        this.isMain = isMain;
+        this.big = big;
+        this.small = small;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     public String getId() {
         return id;
     }

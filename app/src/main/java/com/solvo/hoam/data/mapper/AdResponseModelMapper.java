@@ -28,7 +28,8 @@ public class AdResponseModelMapper extends Mapper<Ad, AdModel> {
                 entity.getCityId(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
-                entity.getIsFree() != 0
+                entity.getIsFree() != 0,
+                false
         );
     }
 }

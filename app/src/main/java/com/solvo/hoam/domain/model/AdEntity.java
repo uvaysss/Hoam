@@ -14,15 +14,35 @@ public class AdEntity {
     private int views;
     private String authorId;
     private String authorName;
-    private String category;
-    private String location;
+    private String categoryId;
+    private String categoryName;
+    private boolean isPremium;
+    private String locationId;
+    private String locationName;
     private String createdAt;
     private String updatedAt;
     private List<Image> imageList;
+    private boolean isFree;
+    private boolean isFavorite;
 
-    public AdEntity(String id, String title, String text, long price, String phone, int views,
-                    String authorId, String authorName, String category, String location,
-                    String createdAt, String updatedAt, List<Image> imageList) {
+    public AdEntity(String id,
+                    String title,
+                    String text,
+                    long price,
+                    String phone,
+                    int views,
+                    String authorId,
+                    String authorName,
+                    String categoryId,
+                    String categoryName,
+                    boolean isPremium,
+                    String locationId,
+                    String locationName,
+                    String createdAt,
+                    String updatedAt,
+                    List<Image> imageList,
+                    boolean isFree,
+                    boolean isFavorite) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -31,16 +51,34 @@ public class AdEntity {
         this.views = views;
         this.authorId = authorId;
         this.authorName = authorName;
-        this.category = category;
-        this.location = location;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.locationId = locationId;
+        this.locationName = locationName;
+        this.isPremium = isPremium;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.imageList = imageList;
+        this.isFree = isFree;
+        this.isFavorite = isFavorite;
     }
 
-    public AdEntity(String id, String title, String text, long price, String phone, int views,
-                    String authorId, String authorName, String createdAt, String updatedAt,
-                    List<Image> imageList) {
+    public AdEntity(String id,
+                    String title,
+                    String text,
+                    long price,
+                    String phone,
+                    int views,
+                    String authorId,
+                    String authorName,
+                    String categoryId,
+                    String locationId,
+                    boolean isPremium,
+                    String createdAt,
+                    String updatedAt,
+                    List<Image> imageList,
+                    boolean isFree,
+                    boolean isFavorite) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -49,9 +87,14 @@ public class AdEntity {
         this.views = views;
         this.authorId = authorId;
         this.authorName = authorName;
+        this.categoryId = categoryId;
+        this.locationId = locationId;
+        this.isPremium = isPremium;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.imageList = imageList;
+        this.isFree = isFree;
+        this.isFavorite = isFavorite;
     }
 
     public String getId() {
@@ -118,20 +161,44 @@ public class AdEntity {
         this.authorName = authorName;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public String getCreatedAt() {
@@ -156,5 +223,21 @@ public class AdEntity {
 
     public void setImageList(List<Image> imageList) {
         this.imageList = imageList;
+    }
+
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        isFree = free;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

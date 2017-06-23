@@ -32,4 +32,13 @@
     <string name="no_connection">Отсутствует подключение</string>
     <string name="check_internet_connection">Проверьте ваше интернет-соединение и попробуйте снова</string>
     <string name="try_again">Попробовать еще раз</string>
+    <string name="action_favorite">Добавить в избранное</string>
+    <string name="ads">Объявления</string>
+    <string name="click_again_to_exit">Нажмите еще раз для выхода</string>
+    <string name="favorite_added">Объявление было добавленно в избранные</string>
+    <string name="favorite_removed">Объявление было удаленно из избранных</string>
+    <string name="favorites">Избранное</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_main">Hoam</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
 </resources>

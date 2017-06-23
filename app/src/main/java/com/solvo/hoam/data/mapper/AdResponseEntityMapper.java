@@ -23,9 +23,14 @@ public class AdResponseEntityMapper extends Mapper<Ad, AdEntity> {
                 entity.getViews(),
                 entity.getAuthorId(),
                 entity.getAuthorName(),
+                entity.getCategoryId(),
+                entity.getCityId(),
+                entity.getIsPremium() != 0,
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
-                entity.getImages()
+                entity.getImages(),
+                entity.getIsFree() != 0,
+                false
         );
     }
 }

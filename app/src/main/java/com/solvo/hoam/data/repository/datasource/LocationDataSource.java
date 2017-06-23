@@ -71,10 +71,28 @@ public class LocationDataSource {
         return locationList;
     }
 
-    public LocationModel getLocation(String locationId) {
+    public LocationModel getLocationById(String locationId) {
         LocationCursorWrapper cursor = query(
                 LocationTable.ID + " = ?",
                 new String[] { locationId });
+
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+
+            cursor.moveToFirst();
+
+            return cursor.getLocation();
+        } finally {
+            cursor.close();
+        }
+    }
+
+    public LocationModel getLocationByName(String name) {
+        LocationCursorWrapper cursor = query(
+                LocationTable.NAME + " = ?",
+                new String[] { name });
 
         try {
             if (cursor.getCount() == 0) {

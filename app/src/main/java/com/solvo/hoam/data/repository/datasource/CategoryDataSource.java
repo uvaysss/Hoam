@@ -73,7 +73,7 @@ public class CategoryDataSource {
         return categoryList;
     }
 
-    public CategoryModel getCategory(String categoryId) {
+    public CategoryModel getCategoryById(String categoryId) {
         CategoryCursorWrapper cursor = query(
                 CategoryTable.ID + " = ?",
                 new String[] { categoryId });
@@ -85,9 +85,25 @@ public class CategoryDataSource {
 
             cursor.moveToFirst();
 
-            CategoryModel category = cursor.getCategory();
+            return cursor.getCategory();
+        } finally {
+            cursor.close();
+        }
+    }
 
-            return category;
+    public CategoryModel getCategoryByName(String name) {
+        CategoryCursorWrapper cursor = query(
+                CategoryTable.NAME + " = ?",
+                new String[] { name });
+
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+
+            cursor.moveToFirst();
+
+            return cursor.getCategory();
         } finally {
             cursor.close();
         }

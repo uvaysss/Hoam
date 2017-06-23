@@ -18,6 +18,7 @@ public class AdPresenter extends MvpPresenter<AdView> {
 
     private static final String TAG = AdPresenter.class.getSimpleName();
     private CompositeDisposable compositeDisposable;
+    private AdEntity ad;
     private String adId;
 
     @Inject
@@ -41,6 +42,8 @@ public class AdPresenter extends MvpPresenter<AdView> {
     }
 
     private void handleSuccess(AdEntity ad) {
+        this.ad = ad;
+
         if (ad.getImageList().isEmpty()) {
             getViewState().hideImageLayout();
         } else if (ad.getImageList().size() == 1) {
@@ -48,6 +51,8 @@ public class AdPresenter extends MvpPresenter<AdView> {
         }
 
         getViewState().setUpViews(ad);
+        getViewState().inflateMenu();
+        getViewState().setIsFavorite(ad.isFavorite());
         getViewState().showContent();
         getViewState().showLoading(false);
     }
@@ -69,4 +74,18 @@ public class AdPresenter extends MvpPresenter<AdView> {
         getViewState().showLoading(true);
         fetchData();
     }
+
+    public void onFavorite(boolean isFavorite) {
+        ad.setFavorite(isFavorite);
+        compositeDisposable.add(interactor.setAdFavorite(ad)
+                .subscribe(() -> {
+                            getViewState().setIsFavorite(ad.isFavorite());
+                            getViewState().showFavoriteSuccess(ad.isFavorite());
+                        },
+                        throwable -> {
+                            Log.e(TAG, throwable.toString());
+                        }));
+    }
+
+
 }

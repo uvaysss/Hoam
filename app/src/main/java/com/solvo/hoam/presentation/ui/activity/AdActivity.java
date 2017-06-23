@@ -5,13 +5,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.solvo.hoam.HoamApplication;
@@ -25,13 +31,15 @@ import com.solvo.hoam.presentation.ui.helper.AdHelper;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class AdActivity extends BaseActivity implements AdView {
+public class AdActivity extends MvpAppCompatActivity implements AdView {
 
     public static final String TAG = AdActivity.class.getSimpleName();
     private static final String EXTRA_AD_ID = "ad_id";
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
+    private CoordinatorLayout coordinatorLayout;
+    private Toolbar toolbar;
     private View contentLayout;
     private View imageLayout;
     private ProgressBar progressBar;
@@ -48,6 +56,8 @@ public class AdActivity extends BaseActivity implements AdView {
     private CircleIndicator indicator;
     private ViewPager imageViewPager;
     private AdPagerAdapter pagerAdapter;
+    private MenuItem favoriteMenuItem;
+    private MenuItem unfavoriteMenuItem;
 
     @InjectPresenter
     AdPresenter presenter;
@@ -66,8 +76,9 @@ public class AdActivity extends BaseActivity implements AdView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad);
-        initToolbar(true);
+        initToolbar();
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         contentLayout = findViewById(R.id.content_layout);
         imageLayout = findViewById(R.id.image_layout);
@@ -89,6 +100,34 @@ public class AdActivity extends BaseActivity implements AdView {
         initConnectionFragment();
     }
 
+    private void initToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.screen_ad));
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
+
+    @Override
+    public void inflateMenu() {
+        toolbar.inflateMenu(R.menu.menu_ad);
+        toolbar.setOnMenuItemClickListener(item -> onMenuItemSelected(item));
+
+        favoriteMenuItem = toolbar.getMenu().findItem(R.id.action_favorite);
+        unfavoriteMenuItem = toolbar.getMenu().findItem(R.id.action_unfavorite);
+    }
+
+    private boolean onMenuItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favorite:
+                presenter.onFavorite(true);
+                return true;
+            case R.id.action_unfavorite:
+                presenter.onFavorite(false);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void initConnectionFragment() {
         ConnectionFragment connectionFragment = ConnectionFragment.newInstance();
         connectionFragment.setOnClickListener(() -> presenter.onTryAgainClicked());
@@ -108,9 +147,9 @@ public class AdActivity extends BaseActivity implements AdView {
         priceTextView.setText(AdHelper.getPrice(ad.getPrice()));
         usernameTextView.setText(ad.getAuthorName());
         usernameTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_user, this), null, null, null);
-        categoryTextView.setText(ad.getCategory());
+        categoryTextView.setText(ad.getCategoryName());
         categoryTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_category, this), null, null, null);
-        locationTextView.setText(ad.getLocation());
+        locationTextView.setText(ad.getLocationName());
         locationTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_location, this), null, null, null);
         phoneTextView.setText(ad.getPhone());
         phoneTextView.setCompoundDrawables(AdHelper.getSupportDrawable(R.drawable.ic_phone_number, this), null, null, null);
@@ -159,6 +198,25 @@ public class AdActivity extends BaseActivity implements AdView {
 
         contentLayout.setVisibility(View.VISIBLE);
         floatingActionButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setIsFavorite(boolean isFavorite) {
+        favoriteMenuItem.setVisible(!isFavorite);
+        unfavoriteMenuItem.setVisible(isFavorite);
+
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showFavoriteSuccess(boolean isFavorite) {
+        Snackbar.make(coordinatorLayout, isFavorite ? R.string.favorite_added : R.string.favorite_removed, Snackbar.LENGTH_SHORT)
+                .show();
     }
 
 }

@@ -27,7 +27,8 @@ public class AdCursorWrapper extends CursorWrapper {
                 getString(getColumnIndex(AdTable.CITY_ID)),
                 getString(getColumnIndex(AdTable.CREATED_AT)),
                 getString(getColumnIndex(AdTable.UPDATED_AT)),
-                getInt(getColumnIndex(AdTable.IS_PREMIUM)) != 0
+                getInt(getColumnIndex(AdTable.IS_PREMIUM)) != 0,
+                getInt(getColumnIndex(AdTable.IS_FAVORITE)) != 0
         );
     }
 }

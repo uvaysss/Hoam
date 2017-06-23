@@ -22,9 +22,14 @@ public class AdListAdapter extends RecyclerView.Adapter<AdListAdapter.AdHolder> 
     private List<AdEntity> adList;
     private Context context;
 
-    public AdListAdapter(Context context) {
-        adList = new ArrayList<>();
+    public AdListAdapter(List<AdEntity> adList, Context context) {
+        this.adList = adList;
         this.context = context;
+    }
+
+    public AdListAdapter(Context context) {
+        this.context = context;
+        adList = new ArrayList<>();
     }
 
     @Override
@@ -79,14 +84,14 @@ public class AdListAdapter extends RecyclerView.Adapter<AdListAdapter.AdHolder> 
 
             titleTextView.setText(ad.getTitle());
 
-            locationTextView.setText(ad.getLocation());
+            locationTextView.setText(ad.getLocationName());
             locationTextView.setCompoundDrawables(
                     AdHelper.getSupportDrawable(R.drawable.ic_location, context),
                     null,
                     null,
                     null);
 
-            categoryTextView.setText(ad.getCategory());
+            categoryTextView.setText(ad.getCategoryName());
             categoryTextView.setCompoundDrawables(
                     AdHelper.getSupportDrawable(R.drawable.ic_category, context),
                     null,

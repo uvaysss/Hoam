@@ -8,7 +8,13 @@ import com.solvo.hoam.domain.common.Mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageResponseModelMapper extends Mapper<Ad, List<ImageModel>> {
+import javax.inject.Inject;
+
+public class AdResponseImageModelMapper extends Mapper<Ad, List<ImageModel>> {
+
+    @Inject
+    public AdResponseImageModelMapper() {
+    }
 
     @Override
     public List<ImageModel> map(Ad entity) {

@@ -19,6 +19,11 @@ public class AdDataSource {
     @Inject
     public AdDataSource(SQLiteDatabase sqLiteDatabase) {
         this.sqLiteDatabase = sqLiteDatabase;
+
+        sqLiteDatabase.delete(
+                AdTable.TABLE_NAME,
+                AdTable.IS_FAVORITE + " = ?",
+                new String[] { "0" });
     }
 
     private ContentValues buildContentValues(AdModel ad) {
@@ -32,11 +37,12 @@ public class AdDataSource {
         values.put(AdTable.AUTHOR_ID, ad.getAuthorId());
         values.put(AdTable.AUTHOR_NAME, ad.getAuthorName());
         values.put(AdTable.CATEGORY_ID, ad.getCategoryId());
-        values.put(AdTable.IS_PREMIUM, ad.getIsPremium() ? 1 : 0);
+        values.put(AdTable.IS_PREMIUM, ad.isPremium() ? 1 : 0);
         values.put(AdTable.CITY_ID, ad.getCityId());
         values.put(AdTable.CREATED_AT, ad.getCreatedAt());
         values.put(AdTable.UPDATED_AT, ad.getUpdatedAt());
-        values.put(AdTable.IS_FREE, ad.getIsFree() ? 1 : 0);
+        values.put(AdTable.IS_FREE, ad.isFree() ? 1 : 0);
+        values.put(AdTable.IS_FAVORITE, ad.isFavorite() ? 1 : 0);
         return values;
     }
 
@@ -62,21 +68,67 @@ public class AdDataSource {
         sqLiteDatabase.insertWithOnConflict(AdTable.TABLE_NAME, null, buildContentValues(ad), SQLiteDatabase.CONFLICT_REPLACE);
     }
 
+    public void updateAd(AdModel ad) {
+        sqLiteDatabase.update(
+                AdTable.TABLE_NAME,
+                buildContentValues(ad),
+                AdTable.ID + " = ?",
+                new String[]{ad.getId()});
+    }
+
     public List<AdModel> getAds() {
-        List<AdModel> languageList = new ArrayList<>();
+        List<AdModel> adList = new ArrayList<>();
 
         AdCursorWrapper cursor = query(null, null);
 
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                languageList.add(cursor.getAd());
+                adList.add(cursor.getAd());
                 cursor.moveToNext();
             }
         } finally {
             cursor.close();
         }
 
-        return languageList;
+        return adList;
+    }
+
+    public AdModel getAd(String adId) {
+        AdCursorWrapper cursor = query(
+                AdTable.ID + " = ?",
+                new String[] { adId });
+
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+
+            cursor.moveToFirst();
+
+            return cursor.getAd();
+        } finally {
+            cursor.close();
+        }
+    }
+
+    public List<AdModel> getFavoriteAds() {
+        List<AdModel> adList = new ArrayList<>();
+
+        AdCursorWrapper cursor = query(
+                AdTable.IS_FAVORITE + " = ?",
+                new String[] { "1" });
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                adList.add(cursor.getAd());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return adList;
     }
 }
