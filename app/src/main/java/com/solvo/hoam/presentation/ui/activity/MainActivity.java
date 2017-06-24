@@ -25,6 +25,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static long backPressed;
 
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private Fragment adListFragment;
@@ -49,7 +50,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_ads);
 
@@ -83,6 +84,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if (adListFragment.isHidden()) {
             showMainFragment(buildFragmentTransaction()).commit();
+            navigationView.setCheckedItem(R.id.nav_ads);
             return;
         }
 
