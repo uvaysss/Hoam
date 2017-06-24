@@ -6,8 +6,6 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SplashView extends MvpView {
-
-    void showError();
-    void showLoading(boolean show);
+    void showError(boolean show);
     void navigateToMainScreen();
 }

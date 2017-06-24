@@ -49,7 +49,7 @@ public class AdPagerAdapter extends PagerAdapter {
 
         Glide.with(context)
                 .load(AdHelper.getImageUrl(imageList.get(position).getBig()))
-                .placeholder(R.drawable.ic_placeholder)
+                .placeholder(AdHelper.getSupportDrawable(R.drawable.ic_placeholder, context))
                 .centerCrop()
                 .animate(R.anim.image_fade_in)
                 .into(imageView);

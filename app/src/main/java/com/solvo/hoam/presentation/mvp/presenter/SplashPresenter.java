@@ -30,8 +30,7 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     }
 
     private void handleError() {
-        getViewState().showError();
-        getViewState().showLoading(false);
+        getViewState().showError(true);
     }
 
     private void handleSuccess() {
@@ -39,7 +38,7 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     }
 
     public void onTryAgainClicked() {
-        getViewState().showLoading(true);
+        getViewState().showError(false);
         fetchData();
     }
 

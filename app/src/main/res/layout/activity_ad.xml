@@ -35,28 +35,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/content_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/content_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <FrameLayout
                     android:id="@+id/image_layout"
-                    android:backgroundTint="@color/grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
+                    android:backgroundTint="@color/grey"
                     android:clickable="true">
 
                     <android.support.v4.view.ViewPager
@@ -98,11 +93,6 @@
                         android:textSize="20sp"
                         android:textStyle="bold"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
                         <TextView
                             android:id="@+id/tv_username"
                             android:layout_width="match_parent"
@@ -126,12 +116,6 @@
                             android:hint="+79295958842"
                             android:padding="8dp"
                             android:textStyle="bold"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_category"
@@ -156,11 +140,11 @@
                             android:hint="Назрань"
                             android:padding="8dp"
                             android:textStyle="bold"/>
-                    </LinearLayout>
 
                     <android.support.v7.widget.CardView
                         xmlns:card_view="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_view"
+                        card_view:cardElevation="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -210,15 +194,20 @@
 
         </android.support.v4.widget.NestedScrollView>
 
+        <include
+            android:id="@+id/error_connection_view"
+            layout="@layout/error_connection_view"
+            android:visibility="gone"/>
+
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_phone"/>
 
 </android.support.design.widget.CoordinatorLayout>

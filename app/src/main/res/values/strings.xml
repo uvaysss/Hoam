@@ -41,4 +41,5 @@
     <string name="click_again_to_exit">Нажмите еще раз для выхода</string>
     <string name="action_favorite">Favorite</string>
     <string name="favorite_added">Successful added to favorites</string>
+    <string name="no_data">Нет данных</string>
 </resources>

@@ -8,11 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,22 +27,26 @@ import com.solvo.hoam.domain.model.AdEntity;
 import com.solvo.hoam.presentation.mvp.presenter.AdPresenter;
 import com.solvo.hoam.presentation.mvp.view.AdView;
 import com.solvo.hoam.presentation.ui.adapter.AdPagerAdapter;
-import com.solvo.hoam.presentation.ui.fragment.ConnectionFragment;
 import com.solvo.hoam.presentation.ui.helper.AdHelper;
 
 import me.relex.circleindicator.CircleIndicator;
 
 public class AdActivity extends MvpAppCompatActivity implements AdView {
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     public static final String TAG = AdActivity.class.getSimpleName();
     private static final String EXTRA_AD_ID = "ad_id";
 
-    private FragmentManager fragmentManager = getSupportFragmentManager();
-
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
+    private View errorConnectionView;
     private View contentLayout;
     private View imageLayout;
+    private Button tryAgainButton;
+    private FloatingActionButton floatingActionButton;
     private ProgressBar progressBar;
     private TextView titleTextView;
     private TextView priceTextView;
@@ -52,7 +57,6 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
     private TextView createdDateTextView;
     private TextView descriptionTextView;
     private TextView viewsTextView;
-    private FloatingActionButton floatingActionButton;
     private CircleIndicator indicator;
     private ViewPager imageViewPager;
     private AdPagerAdapter pagerAdapter;
@@ -79,9 +83,12 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
         initToolbar();
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         contentLayout = findViewById(R.id.content_layout);
         imageLayout = findViewById(R.id.image_layout);
+        errorConnectionView = findViewById(R.id.error_connection_view);
+        tryAgainButton = (Button) findViewById(R.id.try_again_button);
+        tryAgainButton.setOnClickListener(v -> presenter.onTryAgainClicked());
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         titleTextView = (TextView) findViewById(R.id.tv_title);
         priceTextView = (TextView) findViewById(R.id.tv_price);
         usernameTextView = (TextView) findViewById(R.id.tv_username);
@@ -96,8 +103,6 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
         imageViewPager = (ViewPager) findViewById(R.id.image_view_pager);
 
         presenter.init(getIntent().getStringExtra(EXTRA_AD_ID));
-
-        initConnectionFragment();
     }
 
     private void initToolbar() {
@@ -126,19 +131,6 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void initConnectionFragment() {
-        ConnectionFragment connectionFragment = ConnectionFragment.newInstance();
-        connectionFragment.setOnClickListener(() -> presenter.onTryAgainClicked());
-
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, connectionFragment, ConnectionFragment.TAG)
-                .commit();
-        fragmentManager.executePendingTransactions();
-        fragmentManager.beginTransaction()
-                .hide(fragmentManager.findFragmentByTag(ConnectionFragment.TAG))
-                .commit();
     }
 
     @Override
@@ -177,25 +169,23 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
     @Override
     public void showLoading(boolean show) {
         if (show) {
+            errorConnectionView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
         } else {
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void showError() {
-        fragmentManager.beginTransaction()
-                .show(fragmentManager.findFragmentByTag(ConnectionFragment.TAG))
-                .commit();
+        errorConnectionView.setVisibility(View.VISIBLE);
+        contentLayout.setVisibility(View.GONE);
+        floatingActionButton.setVisibility(View.GONE);
     }
 
     @Override
     public void showContent() {
-        fragmentManager.beginTransaction()
-                .hide(fragmentManager.findFragmentByTag(ConnectionFragment.TAG))
-                .commit();
-
+        errorConnectionView.setVisibility(View.GONE);
         contentLayout.setVisibility(View.VISIBLE);
         floatingActionButton.setVisibility(View.VISIBLE);
     }

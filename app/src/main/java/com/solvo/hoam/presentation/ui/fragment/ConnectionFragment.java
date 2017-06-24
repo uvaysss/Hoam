@@ -27,14 +27,14 @@ public class ConnectionFragment extends MvpAppCompatFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_connection, container, false);
+        return inflater.inflate(R.layout.error_connection_view, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tryAgainButton = (Button) view.findViewById(R.id.tryAgainButton);
+        tryAgainButton = (Button) view.findViewById(R.id.try_again_button);
         tryAgainButton.setOnClickListener(v -> {
             listener.onClick();
         });

@@ -71,6 +71,7 @@ public class CategoryAdapter extends BaseAdapter {
             textView.setTypeface(Typeface.DEFAULT_BOLD);
         } else if (category.getParentId() == null) {
             textView.setTextColor(resources.getColor(R.color.colorAccent));
+            textView.setTypeface(Typeface.DEFAULT_BOLD);
         }
 
         return view;

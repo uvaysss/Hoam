@@ -57,6 +57,7 @@ public class AdListPresenter extends MvpPresenter<AdListView> {
     }
 
     public void init() {
+        getViewState().showLoading(true);
         fetchData(0);
     }
 
@@ -81,7 +82,6 @@ public class AdListPresenter extends MvpPresenter<AdListView> {
     }
 
     public void onActivityResult() {
-        getViewState().showLoading(true);
         init();
     }
 

@@ -3,9 +3,11 @@ package com.solvo.hoam.presentation.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -76,43 +78,60 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
+
+        if (adListFragment.isHidden()) {
+            showMainFragment(buildFragmentTransaction()).commit();
+            return;
+        }
+
+        if (backPressed + EXIT_TIMEOUT > System.currentTimeMillis()) {
+            finish();
         } else {
-            if (backPressed + EXIT_TIMEOUT > System.currentTimeMillis()) {
-                finish();
-            } else {
-                Toast.makeText(getBaseContext(), R.string.click_again_to_exit, Toast.LENGTH_SHORT).show();
-                backPressed = System.currentTimeMillis();
-            }
+            Toast.makeText(getBaseContext(), R.string.click_again_to_exit, Toast.LENGTH_SHORT).show();
+            backPressed = System.currentTimeMillis();
         }
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        FragmentTransaction transaction = buildFragmentTransaction();
+
         switch (item.getItemId()) {
             case R.id.nav_ads:
-                fragmentManager.beginTransaction()
-                        .show(adListFragment)
-                        .hide(favoritesFragment)
-                        .hide(aboutAppFragment)
-                        .commit();
+                showMainFragment(transaction);
                 break;
             case R.id.nav_favorites:
-                fragmentManager.beginTransaction()
-                        .hide(adListFragment)
+                transaction.hide(adListFragment)
                         .show(favoritesFragment)
-                        .hide(aboutAppFragment)
-                        .commit();
+                        .hide(aboutAppFragment);
                 break;
             case R.id.nav_about_app:
-                fragmentManager.beginTransaction()
-                        .hide(adListFragment)
+                transaction.hide(adListFragment)
                         .hide(favoritesFragment)
-                        .show(aboutAppFragment)
-                        .commit();
+                        .show(aboutAppFragment);
+                break;
         }
+
+        transaction.commit();
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    private FragmentTransaction buildFragmentTransaction() {
+        return fragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                            android.R.anim.fade_in,
+                            android.R.anim.fade_out,
+                            android.R.anim.fade_in,
+                            android.R.anim.fade_out);
+    }
+
+    private FragmentTransaction showMainFragment(FragmentTransaction transaction) {
+        return transaction.show(adListFragment)
+                .hide(favoritesFragment)
+                .hide(aboutAppFragment);
+    }
 }
