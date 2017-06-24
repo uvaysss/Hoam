@@ -5,7 +5,7 @@ import android.app.Application;
 import com.solvo.hoam.di.ApplicationComponent;
 import com.solvo.hoam.di.DaggerApplicationComponent;
 import com.solvo.hoam.di.module.ContextModule;
-import com.solvo.hoam.di.module.ApplicationModule;
+import com.solvo.hoam.di.module.DataModule;
 
 public class HoamApplication extends Application {
 
@@ -16,8 +16,8 @@ public class HoamApplication extends Application {
         super.onCreate();
 
         applicationComponent = DaggerApplicationComponent.builder()
+                .dataModule(new DataModule())
                 .contextModule(new ContextModule(getApplicationContext()))
-                .applicationModule(new ApplicationModule())
                 .build();
     }
 

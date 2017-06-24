@@ -4,8 +4,6 @@ import com.solvo.hoam.data.db.model.AdModel;
 import com.solvo.hoam.data.db.model.ImageModel;
 import com.solvo.hoam.data.mapper.AdModelEntityMapper;
 import com.solvo.hoam.data.mapper.AdResponseEntityMapper;
-import com.solvo.hoam.data.mapper.AdResponseImageModelMapper;
-import com.solvo.hoam.data.mapper.AdResponseModelMapper;
 import com.solvo.hoam.data.mapper.ImageModelEntityMapper;
 import com.solvo.hoam.data.network.request.AdRequest;
 import com.solvo.hoam.data.network.response.Ad;
@@ -32,9 +30,7 @@ public class AdRepository {
     private LocationDataSource locationDataSource;
     private CategoryDataSource categoryDataSource;
     private ImageDataSource imageDataSource;
-    private AdResponseModelMapper adResponseModelMapper;
     private AdResponseEntityMapper adResponseEntityMapper;
-    private AdResponseImageModelMapper adResponseImageModelMapper;
     private AdModelEntityMapper adModelEntityMapper;
     private ImageModelEntityMapper imageModelEntityMapper;
 
@@ -44,9 +40,7 @@ public class AdRepository {
                         LocationDataSource locationDataSource,
                         CategoryDataSource categoryDataSource,
                         ImageDataSource imageDataSource,
-                        AdResponseModelMapper adResponseModelMapper,
                         AdResponseEntityMapper adResponseEntityMapper,
-                        AdResponseImageModelMapper adResponseImageModelMapper,
                         AdModelEntityMapper adModelEntityMapper,
                         ImageModelEntityMapper imageModelEntityMapper) {
         this.apiAdDataSource = apiAdDataSource;
@@ -54,9 +48,7 @@ public class AdRepository {
         this.locationDataSource = locationDataSource;
         this.categoryDataSource = categoryDataSource;
         this.imageDataSource = imageDataSource;
-        this.adResponseModelMapper = adResponseModelMapper;
         this.adResponseEntityMapper = adResponseEntityMapper;
-        this.adResponseImageModelMapper = adResponseImageModelMapper;
         this.adModelEntityMapper = adModelEntityMapper;
         this.imageModelEntityMapper = imageModelEntityMapper;
     }

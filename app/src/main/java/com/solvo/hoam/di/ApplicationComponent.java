@@ -3,7 +3,6 @@ package com.solvo.hoam.di;
 import android.content.Context;
 
 import com.solvo.hoam.di.module.ContextModule;
-import com.solvo.hoam.di.module.ApplicationModule;
 import com.solvo.hoam.di.module.DataModule;
 import com.solvo.hoam.presentation.mvp.presenter.AdListPresenter;
 import com.solvo.hoam.presentation.mvp.presenter.AdPresenter;
@@ -16,7 +15,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {ContextModule.class, ApplicationModule.class, DataModule.class})
+@Component(modules = {ContextModule.class, DataModule.class})
 public interface ApplicationComponent {
 
     Context getContext();
