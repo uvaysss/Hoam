@@ -29,9 +29,9 @@ public class AdTable {
             VIEWS + " INTEGER NOT NULL, " +
             AUTHOR_ID + " TEXT, " +
             AUTHOR_NAME + " TEXT, " +
-            CATEGORY_ID + " TEXT NOT NULL, " +
+            CATEGORY_ID + " TEXT, " +
             IS_PREMIUM + " INTEGER NOT NULL, " +
-            CITY_ID + " TEXT NOT NULL, " +
+            CITY_ID + " TEXT, " +
             CREATED_AT + " TEXT NOT NULL, " +
             UPDATED_AT + " TEXT NOT NULL, " +
             IS_FREE + " INTEGER NOT NULL, " +

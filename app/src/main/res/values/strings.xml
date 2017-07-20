@@ -43,4 +43,5 @@
     <string name="favorite_added">Successful added to favorites</string>
     <string name="no_data">No data</string>
     <string name="favorite_removed">Ad was removed from favorites</string>
+    <string name="unknown">Неизвестно</string>
 </resources>

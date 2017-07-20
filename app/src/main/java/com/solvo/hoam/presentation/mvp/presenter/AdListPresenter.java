@@ -51,7 +51,7 @@ public class AdListPresenter extends MvpPresenter<AdListView> {
     }
 
     private void handleError(Throwable throwable) {
-        Log.i(TAG, throwable.toString());
+        Log.e(TAG, throwable.toString());
         getViewState().showError();
         getViewState().showLoading(false);
     }

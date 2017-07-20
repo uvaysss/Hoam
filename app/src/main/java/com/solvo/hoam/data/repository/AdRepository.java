@@ -1,7 +1,9 @@
 package com.solvo.hoam.data.repository;
 
 import com.solvo.hoam.data.db.model.AdModel;
+import com.solvo.hoam.data.db.model.CategoryModel;
 import com.solvo.hoam.data.db.model.ImageModel;
+import com.solvo.hoam.data.db.model.LocationModel;
 import com.solvo.hoam.data.mapper.AdModelEntityMapper;
 import com.solvo.hoam.data.mapper.AdResponseEntityMapper;
 import com.solvo.hoam.data.mapper.ImageModelEntityMapper;
@@ -55,8 +57,18 @@ public class AdRepository {
 
     private AdEntity buildAdEntity(Ad ad, boolean isFavorite) {
         AdEntity adEntity = adResponseEntityMapper.map(ad);
-        adEntity.setLocationName(locationDataSource.getLocationById(ad.getCityId()).getName());
-        adEntity.setCategoryName(categoryDataSource.getCategoryById(ad.getCategoryId()).getName());
+        String locationId = ad.getCityId();
+        if (locationId != null) {
+            LocationModel locationModel = locationDataSource.getLocationById(locationId);
+            adEntity.setLocationName(locationModel.getName());
+        }
+
+        String categoryId = ad.getCategoryId();
+        if (categoryId != null) {
+            CategoryModel categoryModel = categoryDataSource.getCategoryById(categoryId);
+            adEntity.setCategoryName(categoryModel.getName());
+        }
+
         adEntity.setFavorite(isFavorite);
         return adEntity;
     }
