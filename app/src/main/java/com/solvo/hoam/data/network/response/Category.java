@@ -32,6 +32,19 @@ public class Category {
     @Expose
     private String updatedAt;
 
+    public Category(String id, String name, String slug, String parentId, int priority, String createdAt, String updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.slug = slug;
+        this.parentId = parentId;
+        this.priority = priority;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Category() {
+    }
+
     public String getId() {
         return id;
     }

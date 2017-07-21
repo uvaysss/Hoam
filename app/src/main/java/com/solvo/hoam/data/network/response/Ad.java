@@ -66,6 +66,27 @@ public class Ad {
     @Expose
     private List<Image> images = null;
 
+    public Ad(String id, String title, String text, int price, String phone, int views, String authorId, String authorName, String categoryId, int isPremium, String cityId, String createdAt, String updatedAt, int isFree, List<Image> images) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.price = price;
+        this.phone = phone;
+        this.views = views;
+        this.authorId = authorId;
+        this.authorName = authorName;
+        this.categoryId = categoryId;
+        this.isPremium = isPremium;
+        this.cityId = cityId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.isFree = isFree;
+        this.images = images;
+    }
+
+    public Ad() {
+    }
+
     public String getId() {
         return id;
     }

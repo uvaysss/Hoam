@@ -24,6 +24,17 @@ public class LocationResponse {
     @Expose
     private String updatedAt;
 
+    public LocationResponse(String id, String name, String regionId, String createdAt, String updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.regionId = regionId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public LocationResponse() {
+    }
+
     public String getId() {
         return id;
     }

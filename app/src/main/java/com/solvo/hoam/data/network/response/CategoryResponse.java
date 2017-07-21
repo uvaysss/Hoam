@@ -37,6 +37,20 @@ public class CategoryResponse {
     @Expose
     private List<Category> categories = null;
 
+    public CategoryResponse(String id, String name, String slug, String parentId, int priority, String createdAt, String updatedAt, List<Category> categories) {
+        this.id = id;
+        this.name = name;
+        this.slug = slug;
+        this.parentId = parentId;
+        this.priority = priority;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.categories = categories;
+    }
+
+    public CategoryResponse() {
+    }
+
     public String getId() {
         return id;
     }

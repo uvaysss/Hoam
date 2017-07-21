@@ -42,6 +42,9 @@ public class Image {
         this.updatedAt = updatedAt;
     }
 
+    public Image() {
+    }
+
     public String getId() {
         return id;
     }
