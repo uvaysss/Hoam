@@ -16,4 +16,6 @@ public class LocationTable {
             REGION_ID + " TEXT NOT NULL, " +
             CREATED_AT + " TEXT NOT NULL, " +
             UPDATED_AT + " TEXT NOT NULL);";
+
+    public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 }

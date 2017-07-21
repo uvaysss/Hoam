@@ -36,4 +36,6 @@ public class AdTable {
             UPDATED_AT + " TEXT NOT NULL, " +
             IS_FREE + " INTEGER NOT NULL, " +
             IS_FAVORITE + " INTEGER NOT NULL);";
+
+    public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 }
