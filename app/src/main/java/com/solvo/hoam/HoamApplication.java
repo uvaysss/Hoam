@@ -15,7 +15,11 @@ public class HoamApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        applicationComponent = DaggerApplicationComponent.builder()
+        applicationComponent = buildComponent();
+    }
+
+    protected ApplicationComponent buildComponent() {
+        return DaggerApplicationComponent.builder()
                 .dataModule(new DataModule())
                 .contextModule(new ContextModule(getApplicationContext()))
                 .build();
