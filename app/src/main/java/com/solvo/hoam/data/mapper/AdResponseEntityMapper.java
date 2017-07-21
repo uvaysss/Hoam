@@ -1,18 +1,16 @@
 package com.solvo.hoam.data.mapper;
 
 import com.solvo.hoam.data.network.response.Ad;
-import com.solvo.hoam.domain.common.Mapper;
 import com.solvo.hoam.domain.model.AdEntity;
 
 import javax.inject.Inject;
 
-public class AdResponseEntityMapper extends Mapper<Ad, AdEntity> {
+public class AdResponseEntityMapper {
 
     @Inject
     public AdResponseEntityMapper() {
     }
 
-    @Override
     public AdEntity map(Ad entity) {
         return new AdEntity(
                 entity.getId(),
