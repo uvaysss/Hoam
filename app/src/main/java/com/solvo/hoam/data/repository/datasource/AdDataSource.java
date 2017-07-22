@@ -65,7 +65,8 @@ public class AdDataSource {
     }
 
     public void saveAd(AdModel ad) {
-        sqLiteDatabase.insertWithOnConflict(AdTable.TABLE_NAME, null, buildContentValues(ad), SQLiteDatabase.CONFLICT_REPLACE);
+//        sqLiteDatabase.insertWithOnConflict(AdTable.TABLE_NAME, null, buildContentValues(ad), SQLiteDatabase.CONFLICT_REPLACE);
+        sqLiteDatabase.insert(AdTable.TABLE_NAME, null, buildContentValues(ad));
     }
 
     public void updateAd(AdModel ad) {
@@ -130,5 +131,9 @@ public class AdDataSource {
         }
 
         return adList;
+    }
+
+    public void deleteAd(AdModel ad) {
+        sqLiteDatabase.delete(AdTable.TABLE_NAME, AdTable.ID + " = ?", new String[]{ad.getId()});
     }
 }

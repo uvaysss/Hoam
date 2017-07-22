@@ -77,7 +77,7 @@ public class AdPresenter extends MvpPresenter<AdView> {
 
     public void onFavorite(boolean isFavorite) {
         ad.setFavorite(isFavorite);
-        compositeDisposable.add(interactor.setAdFavorite(ad)
+        compositeDisposable.add(interactor.setAdFavorite(ad, isFavorite)
                 .subscribe(() -> {
                             getViewState().setIsFavorite(ad.isFavorite());
                             getViewState().showFavoriteSuccess(ad.isFavorite());

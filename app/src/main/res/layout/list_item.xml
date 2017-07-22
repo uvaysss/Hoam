@@ -65,9 +65,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:gravity="start"
+                android:gravity="start|fill_vertical"
                 android:maxLines="1"
-                android:text="@string/unknown"/>
+                android:hint="@string/unknown"/>
 
             <TextView
                 android:id="@+id/tv_created_date"

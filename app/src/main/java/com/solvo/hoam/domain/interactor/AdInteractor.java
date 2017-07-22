@@ -25,7 +25,7 @@ public class AdInteractor {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Completable setAdFavorite(AdEntity ad) {
-        return adRepository.setAdFavorite(ad);
+    public Completable setAdFavorite(AdEntity ad, boolean isFavorite) {
+        return adRepository.setAdFavorite(ad, isFavorite);
     }
 }

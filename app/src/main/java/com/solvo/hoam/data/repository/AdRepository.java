@@ -57,6 +57,7 @@ public class AdRepository {
 
     private AdEntity buildAdEntity(Ad ad, boolean isFavorite) {
         AdEntity adEntity = adResponseEntityMapper.map(ad);
+
         String locationId = ad.getCityId();
         if (locationId != null) {
             LocationModel locationModel = locationDataSource.getLocationById(locationId);
@@ -99,21 +100,39 @@ public class AdRepository {
         return getFavoriteAdModels().toObservable()
                 .flatMap(ads -> Observable.fromIterable(ads))
                 .map(ad -> {
-                    List<ImageModel> imageModelList = imageDataSource.getImageByAdId(ad.getId());
+                    List<ImageModel> imageModelList = imageDataSource.getImagesByAdId(ad.getId());
                     List<Image> imageList = imageModelEntityMapper.direct(imageModelList);
                     AdEntity adEntity = adModelEntityMapper.direct(ad, imageList);
-                    adEntity.setLocationName(locationDataSource.getLocationById(ad.getCityId()).getName());
-                    adEntity.setCategoryName(categoryDataSource.getCategoryById(ad.getCategoryId()).getName());
+
+                    String cityId = ad.getCityId();
+                    if (!cityId.equals("null")) {
+                        LocationModel locationModel = locationDataSource.getLocationById(cityId);
+                        adEntity.setLocationName(locationModel.getName());
+                    }
+
+                    String categoryId = ad.getCategoryId();
+                    if (!categoryId.equals("null")) {
+                        CategoryModel categoryModel = categoryDataSource.getCategoryById(categoryId);
+                        adEntity.setCategoryName(categoryModel.getName());
+                    }
+
                     return adEntity;
                 })
                 .toList();
     }
 
-    public Completable setAdFavorite(AdEntity ad) {
+    public Completable setAdFavorite(AdEntity ad, boolean isFavorite) {
         return Completable.create(e -> {
             List<ImageModel> imageList = imageModelEntityMapper.indirect(ad.getImageList());
-            imageDataSource.saveImages(imageList);
-            adDataSource.saveAd(adModelEntityMapper.indirect(ad));
+            AdModel adModel = adModelEntityMapper.indirect(ad);
+
+            if (isFavorite) {
+                imageDataSource.saveImages(imageList);
+                adDataSource.saveAd(adModel);
+            } else {
+                imageDataSource.deleteImages(imageList);
+                adDataSource.deleteAd(adModel);
+            }
             e.onComplete();
         });
     }

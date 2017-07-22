@@ -47,7 +47,8 @@ public class ImageDataSource {
 
     public void saveImages(List<ImageModel> images) {
         for (ImageModel image : images) {
-            sqLiteDatabase.insertWithOnConflict(ImageTable.TABLE_NAME, null, buildContentValues(image), SQLiteDatabase.CONFLICT_REPLACE);
+//            sqLiteDatabase.insert(ImageTable.TABLE_NAME, null, buildContentValues(image), SQLiteDatabase.CONFLICT_REPLACE);
+            sqLiteDatabase.insert(ImageTable.TABLE_NAME, null, buildContentValues(image));
         }
     }
 
@@ -69,12 +70,13 @@ public class ImageDataSource {
         return imageList;
     }
 
-    public List<ImageModel> getImageByAdId(String adId) {
+    public List<ImageModel> getImagesByAdId(String adId) {
         List<ImageModel> imageList = new ArrayList<>();
 
         ImageCursorWrapper cursor = query(
                 ImageTable.AD_ID + " = ?",
-                new String[]{adId});
+                new String[]{adId}
+        );
 
         try {
             cursor.moveToFirst();
@@ -87,5 +89,11 @@ public class ImageDataSource {
         }
 
         return imageList;
+    }
+
+    public void deleteImages(List<ImageModel> imageList) {
+        for (ImageModel image : imageList) {
+            sqLiteDatabase.delete(ImageTable.TABLE_NAME, ImageTable.ID + " = ?", new String[]{image.getId()});
+        }
     }
 }
