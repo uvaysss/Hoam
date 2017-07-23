@@ -17,7 +17,7 @@ public class AdCursorWrapper extends CursorWrapper {
                 getString(getColumnIndex(AdTable.ID)),
                 getString(getColumnIndex(AdTable.TITLE)),
                 getString(getColumnIndex(AdTable.TEXT)),
-                getInt(getColumnIndex(AdTable.PRICE)),
+                getLong(getColumnIndex(AdTable.PRICE)),
                 getString(getColumnIndex(AdTable.PHONE)),
                 getInt(getColumnIndex(AdTable.VIEWS)),
                 getString(getColumnIndex(AdTable.AUTHOR_ID)),

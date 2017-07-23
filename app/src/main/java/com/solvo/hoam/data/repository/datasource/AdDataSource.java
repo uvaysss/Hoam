@@ -54,7 +54,7 @@ public class AdDataSource {
                 whereArgs,
                 null,
                 null,
-                null
+                AdTable.ID + " DESC"
         ));
     }
 

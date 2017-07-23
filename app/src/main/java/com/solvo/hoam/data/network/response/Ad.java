@@ -20,7 +20,7 @@ public class Ad {
 
     @SerializedName("price")
     @Expose
-    private int price;
+    private long price;
 
     @SerializedName("phone")
     @Expose
@@ -66,7 +66,7 @@ public class Ad {
     @Expose
     private List<Image> images = null;
 
-    public Ad(String id, String title, String text, int price, String phone, int views, String authorId, String authorName, String categoryId, int isPremium, String cityId, String createdAt, String updatedAt, int isFree, List<Image> images) {
+    public Ad(String id, String title, String text, long price, String phone, int views, String authorId, String authorName, String categoryId, int isPremium, String cityId, String createdAt, String updatedAt, int isFree, List<Image> images) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -111,11 +111,11 @@ public class Ad {
         this.text = text;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
