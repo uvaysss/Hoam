@@ -124,11 +124,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private FragmentTransaction buildFragmentTransaction() {
         return fragmentManager.beginTransaction()
-                    .setCustomAnimations(
-                            android.R.anim.fade_in,
-                            android.R.anim.fade_out,
-                            android.R.anim.fade_in,
-                            android.R.anim.fade_out);
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
     }
 
     private FragmentTransaction showMainFragment(FragmentTransaction transaction) {

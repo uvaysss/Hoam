@@ -198,15 +198,15 @@
             layout="@layout/error_connection_view"
             android:visibility="gone"/>
 
-    </FrameLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/floating_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_phone"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_phone"/>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
