@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,10 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.solvo.hoam.HoamApplication;
+import com.solvo.hoam.App;
 import com.solvo.hoam.R;
 import com.solvo.hoam.data.network.RestService;
 import com.solvo.hoam.domain.model.AdEntity;
@@ -32,6 +30,10 @@ import com.solvo.hoam.presentation.ui.adapter.AdListAdapter;
 import com.solvo.hoam.presentation.ui.view.EndlessScrollListener;
 
 import java.util.List;
+
+import moxy.MvpAppCompatFragment;
+import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class AdListFragment extends MvpAppCompatFragment
         implements AdListView, SwipeRefreshLayout.OnRefreshListener {
@@ -52,7 +54,7 @@ public class AdListFragment extends MvpAppCompatFragment
 
     @ProvidePresenter
     AdListPresenter providePresenter() {
-        return new AdListPresenter(HoamApplication.getComponent());
+        return new AdListPresenter(App.getComponent());
     }
 
     public static AdListFragment newInstance() {
@@ -85,7 +87,7 @@ public class AdListFragment extends MvpAppCompatFragment
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        adapter = new AdListAdapter(getContext());
+        adapter = new AdListAdapter(getContext(), null);
         layoutManager = new LinearLayoutManager(getContext());
         scrollListener = new EndlessScrollListener(layoutManager) {
             @Override

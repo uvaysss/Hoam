@@ -1,10 +1,11 @@
 package com.solvo.hoam.presentation.ui.activity;
 
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.solvo.hoam.R;
+
+import moxy.MvpAppCompatActivity;
 
 public class BaseActivity extends MvpAppCompatActivity {
 

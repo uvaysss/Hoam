@@ -3,8 +3,8 @@ package com.solvo.hoam.domain.interactor;
 import com.solvo.hoam.data.db.Filter;
 import com.solvo.hoam.data.db.model.CategoryModel;
 import com.solvo.hoam.data.db.model.LocationModel;
-import com.solvo.hoam.data.repository.CategoryRepository;
-import com.solvo.hoam.data.repository.LocationRepository;
+import com.solvo.hoam.data.repository.CategoryRepositoryLegacy;
+import com.solvo.hoam.data.repository.LocationRepositoryLegacy;
 
 import java.util.List;
 
@@ -17,26 +17,26 @@ import io.reactivex.schedulers.Schedulers;
 public class FilterInteractor {
 
     private Filter filter;
-    private LocationRepository locationRepository;
-    private CategoryRepository categoryRepository;
+    private LocationRepositoryLegacy locationRepositoryLegacy;
+    private CategoryRepositoryLegacy categoryRepositoryLegacy;
 
     @Inject
     public FilterInteractor(Filter filter,
-                            LocationRepository locationRepository,
-                            CategoryRepository categoryRepository) {
+                            LocationRepositoryLegacy locationRepositoryLegacy,
+                            CategoryRepositoryLegacy categoryRepositoryLegacy) {
         this.filter = filter;
-        this.locationRepository = locationRepository;
-        this.categoryRepository = categoryRepository;
+        this.locationRepositoryLegacy = locationRepositoryLegacy;
+        this.categoryRepositoryLegacy = categoryRepositoryLegacy;
     }
 
     public Single<List<LocationModel>> getLocations() {
-        return locationRepository.getLocations()
+        return locationRepositoryLegacy.getLocations()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Single<List<CategoryModel>> getCategories() {
-        return categoryRepository.getCategories()
+        return categoryRepositoryLegacy.getCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

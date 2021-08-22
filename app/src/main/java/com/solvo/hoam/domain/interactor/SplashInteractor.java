@@ -1,7 +1,7 @@
 package com.solvo.hoam.domain.interactor;
 
-import com.solvo.hoam.data.repository.CategoryRepository;
-import com.solvo.hoam.data.repository.LocationRepository;
+import com.solvo.hoam.data.repository.CategoryRepositoryLegacy;
+import com.solvo.hoam.data.repository.LocationRepositoryLegacy;
 
 import javax.inject.Inject;
 
@@ -11,17 +11,17 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SplashInteractor {
 
-    private LocationRepository locationRepository;
-    private CategoryRepository categoryRepository;
+    private LocationRepositoryLegacy locationRepositoryLegacy;
+    private CategoryRepositoryLegacy categoryRepositoryLegacy;
 
     @Inject
-    public SplashInteractor(LocationRepository locationRepository, CategoryRepository categoryRepository) {
-        this.locationRepository = locationRepository;
-        this.categoryRepository = categoryRepository;
+    public SplashInteractor(LocationRepositoryLegacy locationRepositoryLegacy, CategoryRepositoryLegacy categoryRepositoryLegacy) {
+        this.locationRepositoryLegacy = locationRepositoryLegacy;
+        this.categoryRepositoryLegacy = categoryRepositoryLegacy;
     }
 
     public Completable fetchData() {
-        return locationRepository.fetchLocations().mergeWith(categoryRepository.fetchCategories())
+        return locationRepositoryLegacy.fetchLocations().mergeWith(categoryRepositoryLegacy.fetchCategories())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

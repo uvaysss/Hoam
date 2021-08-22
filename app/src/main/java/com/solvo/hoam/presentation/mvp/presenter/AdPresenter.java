@@ -2,8 +2,6 @@ package com.solvo.hoam.presentation.mvp.presenter;
 
 import android.util.Log;
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 import com.solvo.hoam.di.ApplicationComponent;
 import com.solvo.hoam.domain.interactor.AdInteractor;
 import com.solvo.hoam.domain.model.AdEntity;
@@ -12,6 +10,8 @@ import com.solvo.hoam.presentation.mvp.view.AdView;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import moxy.InjectViewState;
+import moxy.MvpPresenter;
 
 @InjectViewState
 public class AdPresenter extends MvpPresenter<AdView> {

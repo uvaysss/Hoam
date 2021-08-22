@@ -4,15 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.solvo.hoam.HoamApplication;
+import com.solvo.hoam.App;
 import com.solvo.hoam.R;
 import com.solvo.hoam.data.db.model.CategoryModel;
 import com.solvo.hoam.data.db.model.LocationModel;
@@ -22,6 +20,9 @@ import com.solvo.hoam.presentation.ui.adapter.CategoryAdapter;
 import com.solvo.hoam.presentation.ui.adapter.LocationAdapter;
 
 import java.util.List;
+
+import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class FilterActivity extends BaseActivity implements FilterView {
 
@@ -39,7 +40,7 @@ public class FilterActivity extends BaseActivity implements FilterView {
 
     @ProvidePresenter
     FilterPresenter providePresenter() {
-        return new FilterPresenter(HoamApplication.getComponent());
+        return new FilterPresenter(App.getComponent());
     }
 
     public static Intent buildIntent(Context context) {

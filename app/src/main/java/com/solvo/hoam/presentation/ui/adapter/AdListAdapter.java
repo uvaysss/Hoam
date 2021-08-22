@@ -1,7 +1,7 @@
 package com.solvo.hoam.presentation.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +17,26 @@ import com.solvo.hoam.presentation.ui.helper.AdHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.Function;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
+import kotlin.jvm.functions.Function1;
+
 public class AdListAdapter extends RecyclerView.Adapter<AdListAdapter.AdHolder> {
     private static final String TAG = AdListAdapter.class.getSimpleName();
     private List<AdEntity> adList;
     private Context context;
+    private Function1<String, Unit> onClick;
 
     public AdListAdapter(List<AdEntity> adList, Context context) {
         this.adList = adList;
         this.context = context;
     }
 
-    public AdListAdapter(Context context) {
+    public AdListAdapter(Context context, Function1<String, Unit> onClick) {
         this.context = context;
         adList = new ArrayList<>();
+        this.onClick = onClick;
     }
 
     @Override
@@ -108,14 +115,17 @@ public class AdListAdapter extends RecyclerView.Adapter<AdListAdapter.AdHolder> 
                         .load(AdHelper.getImageUrl(ad.getImageList().get(0).getSmall()))
                         .placeholder(AdHelper.getSupportDrawable(R.drawable.ic_placeholder, context))
                         .centerCrop()
-                        .crossFade()
                         .into(imageView);
             }
         }
 
         @Override
         public void onClick(View v) {
-            context.startActivity(AdActivity.buildIntent(context, adId));
+//            context.startActivity(AdActivity.buildIntent(context, adId));
+
+            if (onClick != null) {
+                onClick.invoke(adId);
+            }
         }
     }
 }

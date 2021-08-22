@@ -3,8 +3,8 @@ package com.solvo.hoam.presentation.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +31,6 @@ public class ImageActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(AdHelper.getImageUrl(getIntent().getStringExtra(EXTRA_IMAGE_URL)))
-                .crossFade()
                 .into(imageView);
     }
 }

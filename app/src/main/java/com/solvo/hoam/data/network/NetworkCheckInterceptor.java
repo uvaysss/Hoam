@@ -1,5 +1,7 @@
 package com.solvo.hoam.data.network;
 
+import androidx.annotation.NonNull;
+
 import com.solvo.hoam.domain.exception.NoNetworkException;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class NetworkCheckInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request.Builder requestBuilder = chain.request().newBuilder();
 
         if (!networkChecker.isConnected()) {

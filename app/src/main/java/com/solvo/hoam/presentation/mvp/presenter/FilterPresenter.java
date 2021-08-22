@@ -2,8 +2,6 @@ package com.solvo.hoam.presentation.mvp.presenter;
 
 import android.util.Log;
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 import com.solvo.hoam.data.db.Filter;
 import com.solvo.hoam.data.db.model.CategoryModel;
 import com.solvo.hoam.data.db.model.LocationModel;
@@ -14,6 +12,8 @@ import com.solvo.hoam.presentation.mvp.view.FilterView;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import moxy.InjectViewState;
+import moxy.MvpPresenter;
 
 @InjectViewState
 public class FilterPresenter extends MvpPresenter<FilterView> {

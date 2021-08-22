@@ -1,7 +1,9 @@
 package com.solvo.hoam.presentation.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
+
+import androidx.viewpager.widget.PagerAdapter;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +53,6 @@ public class AdPagerAdapter extends PagerAdapter {
                 .load(AdHelper.getImageUrl(imageList.get(position).getBig()))
                 .placeholder(AdHelper.getSupportDrawable(R.drawable.ic_placeholder, context))
                 .centerCrop()
-                .animate(R.anim.image_fade_in)
                 .into(imageView);
 
         container.addView(itemView);

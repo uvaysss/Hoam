@@ -4,13 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.solvo.hoam.HoamApplication;
+import com.solvo.hoam.App;
 import com.solvo.hoam.R;
 import com.solvo.hoam.domain.model.AdEntity;
 import com.solvo.hoam.presentation.mvp.presenter.AdPresenter;
@@ -29,7 +28,11 @@ import com.solvo.hoam.presentation.mvp.view.AdView;
 import com.solvo.hoam.presentation.ui.adapter.AdPagerAdapter;
 import com.solvo.hoam.presentation.ui.helper.AdHelper;
 
+import dev.chrisbanes.insetter.ViewinsetterKt;
 import me.relex.circleindicator.CircleIndicator;
+import moxy.MvpAppCompatActivity;
+import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class AdActivity extends MvpAppCompatActivity implements AdView {
 
@@ -41,6 +44,7 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
     private static final String EXTRA_AD_ID = "ad_id";
 
     private CoordinatorLayout coordinatorLayout;
+    private AppBarLayout appBar;
     private Toolbar toolbar;
     private View errorConnectionView;
     private View contentLayout;
@@ -68,7 +72,7 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
 
     @ProvidePresenter
     AdPresenter providePresenter() {
-        return new AdPresenter(HoamApplication.getComponent());
+        return new AdPresenter(App.getComponent());
     }
 
     public static Intent buildIntent(Context context, String adId) {
@@ -78,11 +82,13 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        getWindow().setDecorFitsSystemWindows(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad);
         initToolbar();
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
+        appBar = (AppBarLayout) findViewById(R.id.app_bar);
         contentLayout = findViewById(R.id.content_layout);
         imageLayout = findViewById(R.id.image_layout);
         errorConnectionView = findViewById(R.id.error_connection_view);
@@ -101,6 +107,9 @@ public class AdActivity extends MvpAppCompatActivity implements AdView {
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         indicator = (CircleIndicator) findViewById(R.id.indicator);
         imageViewPager = (ViewPager) findViewById(R.id.image_view_pager);
+
+        ViewinsetterKt.applySystemGestureInsetsToPadding(appBar, false, true, false, false, true);
+        ViewinsetterKt.applySystemGestureInsetsToPadding(contentLayout, false, false, false, true, true);
 
         presenter.init(getIntent().getStringExtra(EXTRA_AD_ID));
     }

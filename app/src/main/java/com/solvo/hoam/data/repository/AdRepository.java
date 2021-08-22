@@ -22,6 +22,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -61,13 +63,13 @@ public class AdRepository {
         String locationId = ad.getCityId();
         if (locationId != null) {
             LocationModel locationModel = locationDataSource.getLocationById(locationId);
-            adEntity.setLocationName(locationModel.getName());
+//            adEntity.setLocationName(locationModel.getName());
         }
 
         String categoryId = ad.getCategoryId();
         if (categoryId != null) {
             CategoryModel categoryModel = categoryDataSource.getCategoryById(categoryId);
-            adEntity.setCategoryName(categoryModel.getName());
+//            adEntity.setCategoryName(categoryModel.getName());
         }
 
         adEntity.setFavorite(isFavorite);
@@ -122,18 +124,21 @@ public class AdRepository {
     }
 
     public Completable setAdFavorite(AdEntity ad, boolean isFavorite) {
-        return Completable.create(e -> {
-            List<ImageModel> imageList = imageModelEntityMapper.indirect(ad.getImageList());
-            AdModel adModel = adModelEntityMapper.indirect(ad);
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(CompletableEmitter e) throws Exception {
+                List<ImageModel> imageList = imageModelEntityMapper.indirect(ad.getImageList());
+                AdModel adModel = adModelEntityMapper.indirect(ad);
 
-            if (isFavorite) {
-                imageDataSource.saveImages(imageList);
-                adDataSource.saveAd(adModel);
-            } else {
-                imageDataSource.deleteImages(imageList);
-                adDataSource.deleteAd(adModel);
+                if (isFavorite) {
+                    imageDataSource.saveImages(imageList);
+                    adDataSource.saveAd(adModel);
+                } else {
+                    imageDataSource.deleteImages(imageList);
+                    adDataSource.deleteAd(adModel);
+                }
+                e.onComplete();
             }
-            e.onComplete();
         });
     }
 }

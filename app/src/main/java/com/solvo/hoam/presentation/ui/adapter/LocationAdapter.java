@@ -65,7 +65,7 @@ public class LocationAdapter extends BaseAdapter {
         textView.setText(locationList.get(position).getName());
 
         if (position == 0) {
-            textView.setTextColor(resources.getColor(R.color.black));
+            textView.setTextColor(resources.getColor(R.color.dark));
             textView.setTypeface(Typeface.DEFAULT_BOLD);
         }
 

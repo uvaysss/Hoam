@@ -2,8 +2,6 @@ package com.solvo.hoam.presentation.mvp.presenter;
 
 import android.util.Log;
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 import com.solvo.hoam.di.ApplicationComponent;
 import com.solvo.hoam.domain.interactor.FavoritesInteractor;
 import com.solvo.hoam.presentation.mvp.view.FavoritesView;
@@ -11,6 +9,8 @@ import com.solvo.hoam.presentation.mvp.view.FavoritesView;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import moxy.InjectViewState;
+import moxy.MvpPresenter;
 
 @InjectViewState
 public class FavoritesPresenter extends MvpPresenter<FavoritesView> {

@@ -1,16 +1,25 @@
 buildscript {
+    ext {
+        kotlin_version = "1.5.10"
+        compose_version = '1.0.0'
+    }
+
     repositories {
         jcenter()
+        google()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'com.android.tools.build:gradle:7.0.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        google()
+        maven { url "https://jitpack.io" }
     }
 }
 

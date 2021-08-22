@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.solvo.hoam.HoamApplication;
+import com.solvo.hoam.App;
 import com.solvo.hoam.R;
 import com.solvo.hoam.presentation.mvp.presenter.SplashPresenter;
 import com.solvo.hoam.presentation.mvp.view.SplashView;
+
+import moxy.MvpAppCompatActivity;
+import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
@@ -22,7 +23,7 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
     @ProvidePresenter
     SplashPresenter providePresenter() {
-        return new SplashPresenter(HoamApplication.getComponent());
+        return new SplashPresenter(App.getComponent());
     }
 
     @Override

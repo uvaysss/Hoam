@@ -1,17 +1,14 @@
 package com.solvo.hoam.presentation.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.solvo.hoam.HoamApplication;
+import com.solvo.hoam.App;
 import com.solvo.hoam.R;
 import com.solvo.hoam.domain.model.AdEntity;
 import com.solvo.hoam.presentation.mvp.presenter.FavoritesPresenter;
@@ -20,6 +17,10 @@ import com.solvo.hoam.presentation.ui.adapter.AdListAdapter;
 import com.solvo.hoam.presentation.ui.helper.AdHelper;
 
 import java.util.List;
+
+import moxy.MvpAppCompatFragment;
+import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class FavoritesFragment extends MvpAppCompatFragment implements FavoritesView {
 
@@ -31,7 +32,7 @@ public class FavoritesFragment extends MvpAppCompatFragment implements Favorites
 
     @ProvidePresenter
     FavoritesPresenter providePresenter() {
-        return new FavoritesPresenter(HoamApplication.getComponent());
+        return new FavoritesPresenter(App.getComponent());
     }
 
     public static FavoritesFragment newInstance() {
